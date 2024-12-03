@@ -157,8 +157,8 @@ def getAvailableCoordinates(stateBoard, currentSelection, icMapDict):
     # Get all solved coordinates in stateBoard
     for rowIndex, row in enumerate(stateBoard):
         for colIndex, element in enumerate(row):
-            if element == False:
-                solvedCoordinates.append(icMapDict((rowIndex, colIndex)))
+            if element == True:
+                solvedCoordinates.append(icMapDict[(rowIndex,colIndex)])
 
     # Create final list of coordinates (filtered version) - Initialize first as empty
     availableCoordinatesFinal = []
