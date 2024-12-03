@@ -174,20 +174,36 @@ def getAvailableCoordinates(stateBoard, currentSelection, icMapDict):
     return availableCoordinatesFinal
 
 
-def selectCard(assignmentBoard, stateBoard, currentSelection):
+def selectCard(stateBoard, currentSelection, icMapDict):
     """
     Asks the user for a valid card
 
     Parameters:
-        assignmentBoard (list): multidimensional list of size n x n containing the assignments
         stateBoard (list): multidimensional list of size n x n containing the state
         currentSelection (list): list containing the currently selected cards of the player
+        icMapDict (dict): dictionary of index to coordinate mapping
 
     Returns:
         cardSelected (int): card coordinate selected
-        False: if an invalid card is selected    
+        False: if an invalid card is selected
     """
-    pass
+
+    # Get list of available coordinates
+    availableCards = getAvailableCoordinates(stateBoard, currentSelection, icMapDict)
+
+    # Ask user for a card they want to select
+    try:
+        cardSelected = int(input("Select coordinate of card to flip: "))
+
+        # TODO: Feature not implemented: Option to exit while selecting card
+
+        # Check if card selected is in list of available cards
+        if cardSelected not in availableCards:
+            return False
+        else:
+            return cardSelected
+    except:
+        return False
 
 
 def checkMatchUpdateBoard(assignmentBoard, stateBoard, currentSelection, ciDictMap):
@@ -221,6 +237,7 @@ def checkMatchUpdateBoard(assignmentBoard, stateBoard, currentSelection, ciDictM
         return stateBoard, True
     else:
         return stateBoard
+
 
 def mainMenu():
     """
