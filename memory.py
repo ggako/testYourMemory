@@ -16,7 +16,14 @@ def initialState(n):
     Returns:
         stateBoard (list): multidimensional list of size n x n containing the initial state
     """
-    pass
+        
+    stateBoard = []
+    for i in range(n):
+        stateBoard.append([])
+        for j in range(n):
+            stateBoard[i].append(False)
+
+    return stateBoard
 
 
 def initialAssignment(n):
