@@ -167,8 +167,22 @@ def checkMatchUpdateBoard(assignmentBoard, stateBoard, currentSelection, ciDictM
         Updated stateBoard
         matchFound (bool): True if a match is found, False otherwise
     """
-    pass
+    
+    sel1_coor = coordinateToIndexMap.get(currentSelection[0])
+    sel2_coor = coordinateToIndexMap.get(currentSelection[1])
+    sel1_coor_x = sel1_coor[0]
+    sel1_coor_y = sel1_coor[1]
+    sel2_coor_x = sel2_coor[0]
+    sel2_coor_y = sel2_coor[1]
 
+    selection1 = assignmentBoard[sel1_coor_x][sel1_coor_y]
+    selection2 = assignmentBoard[sel2_coor_x][sel2_coor_y]
+    if selection1 == selection2:
+        stateBoard[sel1_coor_x][sel1_coor_y] = True
+        stateBoard[sel2_coor_x][sel2_coor_y] = True
+        return stateBoard, True
+    else:
+        return stateBoard
 
 def mainMenu():
     """
