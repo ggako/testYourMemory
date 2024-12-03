@@ -1,5 +1,8 @@
 # 𝙏𝙚𝙨𝙩 𝙔𝙤𝙪𝙧 𝙈𝙚𝙢𝙤𝙧𝙮: 𝘼 𝙏𝙚𝙭𝙩 𝘽𝙖𝙨𝙚𝙙 𝙈𝙚𝙢𝙤𝙧𝙮 𝙂𝙖𝙢𝙚 
 
+# Standard Libraries
+
+# Third Party Libraries
 
 
 
@@ -97,7 +100,40 @@ def getAvailableCoordinates(stateBoard, currentSelection, icMapDict):
     Returns:
         availableCoordinatesFinal (list): list of available coordinates    
     """
-    pass
+    # FILTERING approach (start from all coordinates in the board, then removing solved coordinates and selected coordinates)
+
+    # Get the dimension of the board (use stateBoard as reference) (Assumption: n x n board is used)
+    n = len(stateBoard)
+
+    # Create initial list of coordinates (e.g. if 4x4 board, coordinates will be from 1-16) - Initialize first as empty
+    # Initial list of coordinates = all coordinates found in the board
+    availableCoordinatesInitial = []
+
+    # Populating the initial list
+    for i in range(1, (n*n) + 1):
+        availableCoordinatesInitial.append(i)
+
+    # Initialize solved coordinates array
+    solvedCoordinates = []
+
+    # Get all solved coordinates in stateBoard
+    for rowIndex, row in enumerate(stateBoard):
+        for colIndex, element in enumerate(row):
+            if element == False:
+                solvedCoordinates.append(icMapDict((rowIndex, colIndex)))
+
+    # Create final list of coordinates (filtered version) - Initialize first as empty
+    availableCoordinatesFinal = []
+
+    # Populate final list of coordinates: Remove solved coordinates and currentSelection from initial list of coordinates
+    for coordinate in availableCoordinatesInitial:
+        if coordinate in solvedCoordinates or coordinate in currentSelection:
+            pass
+        else:
+            availableCoordinatesFinal.append(coordinate)
+
+    # Return the final available coordinate
+    return availableCoordinatesFinal
 
 
 def selectCard(assignmentBoard, stateBoard, currentSelection):
