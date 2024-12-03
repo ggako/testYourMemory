@@ -1,6 +1,7 @@
 # 𝙏𝙚𝙨𝙩 𝙔𝙤𝙪𝙧 𝙈𝙚𝙢𝙤𝙧𝙮: 𝘼 𝙏𝙚𝙭𝙩 𝘽𝙖𝙨𝙚𝙙 𝙈𝙚𝙢𝙤𝙧𝙮 𝙂𝙖𝙢𝙚 
 
 # Standard Libraries
+import random
 
 # Third Party Libraries
 
@@ -28,15 +29,45 @@ def initialState(n):
 
 def initialAssignment(n):
     """
-    Returns a n x n sized board containing the assignment of values. Values location is subjected to randomization.
+    Returns a n x n sized board containing the assignment of values. 
+    Values location is subjected to randomization.
 
     Parameters:
         n (int): Size of the board
 
     Returns:
-        assignmentBoard (list): multidimensional list of size n x n containing values with randomized placement    
+        assignmentBoard (list): multidimensional list of size n x n 
+        containing values with randomized placement
     """
-    pass
+    # Get the number of unique cards needed for this game.
+    libraryQty = int((n**2)/2)
+ 
+    # The 52-card deck contains 4 suites and 13 values.
+    cardSuits = ['\u2660','\u2663','\u2665','\u2666']   
+    cardValues = [
+        ' A',' 2',' 3',' 4',' 5',' 6',' 7',
+        ' 8',' 9','10',' J',' Q',' K'
+    ]    
+
+    # Create a library containing unique cards with qty = libraryQty.
+    library = [] 
+    for i in range (libraryQty):
+        while True:
+            card = random.choice(cardValues) + random.choice(cardSuits)
+            if card not in library:
+                break                            
+        library.append(card)
+    
+    # Duplicate the cards in the library to make card-pairs.
+    library += library
+    
+    # Shuffle the cards before starting the game.
+    random.shuffle(library)
+
+    # Take a card from the library and configure as a matrix.
+    assignmentBoard = [[library.pop() for j in range(n)] for row in range(n)]
+
+    return assignmentBoard
 
 
 def gameOver(stateBoard):
