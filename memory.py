@@ -221,9 +221,8 @@ def checkMatchUpdateBoard(assignmentBoard, stateBoard, currentSelection, ciDictM
         Updated stateBoard
         matchFound (bool): True if a match is found, False otherwise
     """
-    
-    sel1_coor = coordinateToIndexMap.get(currentSelection[0])
-    sel2_coor = coordinateToIndexMap.get(currentSelection[1])
+    sel1_coor = ciDictMap.get(currentSelection[0])
+    sel2_coor = ciDictMap.get(currentSelection[1])
     sel1_coor_x = sel1_coor[0]
     sel1_coor_y = sel1_coor[1]
     sel2_coor_x = sel2_coor[0]
