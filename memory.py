@@ -274,16 +274,30 @@ def congratsScreen():
     pass
 
 
-def totalMovesToScore():
+def totalMovesToScore(totalMoves,n):
+
     """
     Converts total moves to score
 
     Parameters:
         totalMoves (int): Total moves by the user
+        size (n): size of the board
     Returns:
         score (int): Score by the user    
     """
-    pass
+    min_possible_moves = (n * n) // 2 #minimum moves to get all correct combinations
+    multiplier = n*0.8 #increases score based on grid size, moderate
+    # display maximum score while total moves are less than or equal to minimum possible moves
+    if totalMoves<=min_possible_moves:
+        return 1000*multiplier 
+   
+    if totalMoves==min_possible_moves:
+        move_penalty=1
+    else:
+        move_penalty=(totalMoves/min_possible_moves) #more moves, more penalty
+    score = (min_possible_moves / totalMoves) * 1000 * multiplier / move_penalty
+    # score decreases as number of moves increases (beyond the minimum possible moves)
+    return score
 
 
 def playGame():
