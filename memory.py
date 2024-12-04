@@ -285,8 +285,10 @@ def totalMovesToScore(totalMoves,n):
     Returns:
         score (int): Score by the user    
     """
-    min_possible_moves = (n * n) // 2 #minimum moves to get all correct combinations
-    multiplier = n*0.8 #increases score based on grid size, moderate
+    #if totalMoves is calculated by counting the number of moves a player makes, regardless of whether the moves result in a correct match or not
+    #1 pair = 2 moves
+    min_possible_moves = (n * n) #minimum moves to get all correct combinations (if 1 pair = 2 moves)
+    multiplier = n*0.8 #increases score based on grid size
     # display maximum score while total moves are less than or equal to minimum possible moves
     if totalMoves<=min_possible_moves:
         return 1000*multiplier 
