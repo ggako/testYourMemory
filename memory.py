@@ -221,9 +221,8 @@ def checkMatchUpdateBoard(assignmentBoard, stateBoard, currentSelection, ciDictM
         Updated stateBoard
         matchFound (bool): True if a match is found, False otherwise
     """
-    
-    sel1_coor = coordinateToIndexMap.get(currentSelection[0])
-    sel2_coor = coordinateToIndexMap.get(currentSelection[1])
+    sel1_coor = ciDictMap.get(currentSelection[0])
+    sel2_coor = ciDictMap.get(currentSelection[1])
     sel1_coor_x = sel1_coor[0]
     sel1_coor_y = sel1_coor[1]
     sel2_coor_x = sel2_coor[0]
@@ -275,16 +274,32 @@ def congratsScreen():
     pass
 
 
-def totalMovesToScore():
+def totalMovesToScore(totalMoves,n):
+
     """
     Converts total moves to score
 
     Parameters:
         totalMoves (int): Total moves by the user
+        size (n): size of the board
     Returns:
         score (int): Score by the user    
     """
-    pass
+    #if totalMoves is calculated by counting the number of moves a player makes, regardless of whether the moves result in a correct match or not
+    #1 pair = 2 moves
+    min_possible_moves = (n * n) #minimum moves to get all correct combinations (if 1 pair = 2 moves)
+    multiplier = n*0.8 #increases score based on grid size
+    # display maximum score while total moves are less than or equal to minimum possible moves
+    if totalMoves<=min_possible_moves:
+        return 1000*multiplier 
+   
+    if totalMoves==min_possible_moves:
+        move_penalty=1
+    else:
+        move_penalty=(totalMoves/min_possible_moves) #more moves, more penalty
+    score = (min_possible_moves / totalMoves) * 1000 * multiplier / move_penalty
+    # score decreases as number of moves increases (beyond the minimum possible moves)
+    return score
 
 
 def playGame():
