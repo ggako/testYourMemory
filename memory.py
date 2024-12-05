@@ -236,7 +236,7 @@ def checkMatchUpdateBoard(assignmentBoard, stateBoard, currentSelection, ciDictM
         stateBoard[sel2_coor_x][sel2_coor_y] = True
         return stateBoard, True
     else:
-        return stateBoard
+        return stateBoard, False
 
 
 def mainMenu():
