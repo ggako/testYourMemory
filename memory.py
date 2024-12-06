@@ -302,11 +302,86 @@ def totalMovesToScore(totalMoves,n):
     return score
 
 
-def playGame():
+def playGame(currentName, n, type=1):
     """
-    Executes the flow of the game
+    Executes the logic of the game
+    
+    Parameters:
+        name (str): Current username of the player
+        n (int): Game board size
+        type (int): 1, for new game; 2, for continuing a saved game  
+    Returns:
+        0 (int): Signal to return back to main menu after game is over
     """
-    pass
+
+    if type == 1:
+        
+        # Initialize boards and game variables
+        assignmentBoard = initialAssignment(n)
+        stateBoard = initialState(n)
+        totalMoves = 0 
+        currentSelection = []
+        ciMapDict = coordinateToIndexMap(n)
+        icMapDict = indexToCoordinateMap(n)
+        gameRunning = True
+
+        # Simulate a complete round (complete round - flipping 2 cards)
+        while gameRunning:
+
+            selectedCard = False # Initialize selected card (for while loop entry)
+
+            # Selecting first card of the round
+            while selectedCard == False:
+                displayBoard(stateBoard, assignmentBoard, selectedCard, ciMapDict)
+                selectedCard = selectCard(stateBoard, currentSelection, icMapDict)
+                clearScreen()
+
+            # Add card to current selection
+            currentSelection.append(selectedCard)
+
+            # Update total moves
+            totalMoves += 1            
+
+            selectedCard = False # Initialize selected card (for while loop entry)
+
+            # Selecting second card of the round
+            while selectedCard == False:
+                displayBoard(stateBoard, assignmentBoard, selectedCard, ciMapDict)
+                selectedCard = selectCard(stateBoard, currentSelection, icMapDict)
+                clearScreen()            
+
+            # Add card to current selection
+            currentSelection.append(selectedCard)
+
+            # Update total moves
+            totalMoves += 1            
+
+            # Check if current selection matches or not and update if necessary
+            stateBoard, matchFound = checkMatchUpdateBoard(assignmentBoard, stateBoard, currentSelection, ciDictMap)
+
+            # Print indicator of whether the player has found a match
+            if matchFound == True:
+                # TODO: Match found message
+                pass 
+            else:
+                pass
+
+            # Clear current selection of cards
+            currentSelection.pop()
+            currentSelection.pop()
+
+            # Check if game is over
+            if gameOver(stateBoard) == True:
+                print(f"Your final score is {totalMovesToScore(totalMoves, n)}")
+                recordGameLog(currentName, totalMovesToScore(totalMoves, n), n)
+                congratsScreen()
+                return 0 # Returns user back to main menu
+
+    # For save game implementation
+    elif type == 2:
+        pass
+    else:
+        pass
 
 
 def main():
