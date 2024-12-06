@@ -1,9 +1,12 @@
 # 𝙏𝙚𝙨𝙩 𝙔𝙤𝙪𝙧 𝙈𝙚𝙢𝙤𝙧𝙮: 𝘼 𝙏𝙚𝙭𝙩 𝘽𝙖𝙨𝙚𝙙 𝙈𝙚𝙢𝙤𝙧𝙮 𝙂𝙖𝙢𝙚 
 
 # Standard Libraries
+from datetime import date
+import os
 import random
 
 # Third Party Libraries
+import pandas as pd
 
 
 
@@ -300,6 +303,78 @@ def totalMovesToScore(totalMoves,n):
     score = (min_possible_moves / totalMoves) * 1000 * multiplier / move_penalty
     # score decreases as number of moves increases (beyond the minimum possible moves)
     return score
+
+
+def recordGameLog(currentName, score, n):
+    """
+    Stores completed game data into a csv file with columns [id, name, score, gameType, date completed]
+
+    If game log file does not exist, create one and add the first entry
+
+    Parameters:
+        currentName (str): Current username of the player
+        score (int): Score by the user
+        n (int): Size of the board
+    Returns:
+        None    
+    """
+
+    # Get current date - to be added in the log
+    today = date.today()
+
+    # Get current path
+    currentPath = os.path.dirname(os.path.abspath(__file__))
+
+    # Specify game log folder path
+    folderpath = './gamelog'
+
+    # Specify game log file path
+    filepath = os.path.join(currentPath, 'gamelog/gamelog.csv')
+
+   # CASE 1: Folder and csv file does not exist
+    if not os.path.exists(folderpath):
+
+        # Create folder
+        os.mkdir('gamelog')
+
+        # Check if file exists (NOTE: This is a redundant check)
+        if not os.path.isfile(filepath):
+
+            # Create csv file
+            file = open(filepath, "w")
+            id = 1
+            file.write(f"ID,Name,Score,GameType,Date\n")
+            file.write(f"{id},{currentName},{score},{n},{today}\n")
+            file.close()
+
+    # CASE 2: CSV Folder already exist 
+    else:
+
+        # CASE 2a: File does not exist
+        if not os.path.isfile(filepath):
+
+            # Create csv file
+            file = open(filepath, "w")
+            id = 1
+            file.write(f"ID,Name,Score,GameType,Date\n")
+            file.write(f"{id},{currentName},{score},{n},{today}\n")
+            file.close()
+
+        # CASE 2b: File already exist
+        else:
+
+            # Open CSV File
+            df = pd.read_csv(filepath)
+            
+            # Get ID of newest game log entry
+            lastRow = list(df.iloc[-1]) # Gets the last row
+            nextID = int(lastRow[0]) + 1 # Gets the index of new entry
+
+            # Add new entry to dataframe
+            df.loc[len(df)] = [nextID, currentName, score, n, today]
+
+            # Save to csv
+            df.to_csv(filepath, index=False)
 
 
 def playGame(currentName, n, type=1):
