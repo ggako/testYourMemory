@@ -379,7 +379,7 @@ def clearScreen():
     os.system('cls' if os.name == 'nt' else 'clear')
 
 
-def welcomeScreen():
+def welcomeScreen(currentName):
     """
     Displays a welcome screen
     """
@@ -394,7 +394,7 @@ def welcomeScreen():
     input("Press Enter to start the game...")
 
 
-def congratsScreen():
+def congratsScreen(currentName):
     """
     Displays a congratulation screen
     """
@@ -410,7 +410,6 @@ def congratsScreen():
 
 
 def totalMovesToScore(totalMoves,n):
-
     """
     Converts total moves to score
 
