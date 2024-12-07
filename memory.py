@@ -260,21 +260,37 @@ def clearScreen():
     """
     Clears the terminal screen
     """
-    pass
+    os.system('cls' if os.name == 'nt' else 'clear')
 
 
 def welcomeScreen():
     """
     Displays a welcome screen
     """
-    pass
+    clearScreen()  # Clear the screen
+    print("****************************")
+    print("*   Test Your Memory Game  *")
+    print("****************************")
+    print(f"Welcome, {currentName}!")
+    print("Get ready to test your memory skills!")
+    print("Match all the pairs with the fewest moves possible!")
+    print()
+    input("Press Enter to start the game...")
 
 
 def congratsScreen():
     """
     Displays a congratulation screen
     """
-    pass
+    clearScreen()  # Clear the screen
+    print("****************************")
+    print("*   CONGRATULATIONS!       *")
+    print("****************************")
+    print(f"Well done, {currentName}!")
+    print("You've reached the leaderboard!")
+    print("Keep playing to improve your score!")
+    print()
+    input("Press Enter to continue...")
 
 
 def totalMovesToScore(totalMoves,n):
