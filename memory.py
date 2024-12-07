@@ -115,7 +115,13 @@ def coordinateToIndexMap(n):
     Returns:
         ciMapDict (dict): Dictionary which maps a "coordinate" to its i and j index board position
     """
-    pass
+    ciMapDict = {}
+    index = 1
+    for r in range(n):
+        for c in range(n):
+            ciMapDict[index] = (r, c)
+            index += 1
+    return ciMapDict
 
 
 def indexToCoordinateMap(n):
@@ -128,7 +134,13 @@ def indexToCoordinateMap(n):
     Returns:
         icMapDict (dict): Dictionary which maps the i and j index board positions to the "coordinate"     
     """
-    pass
+    icMapDict = {}
+    index = 1
+    for r in range(n):
+        for c in range(n):
+            icMapDict[(r, c)] = index
+            index += 1
+    return icMapDict
 
 
 def getAvailableCoordinates(stateBoard, currentSelection, icMapDict):
