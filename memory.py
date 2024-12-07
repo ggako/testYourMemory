@@ -290,17 +290,20 @@ def totalMovesToScore(totalMoves,n):
     """
     #if totalMoves is calculated by counting the number of moves a player makes, regardless of whether the moves result in a correct match or not
     #1 pair = 2 moves
-    min_possible_moves = (n * n) #minimum moves to get all correct combinations (if 1 pair = 2 moves)
-    multiplier = n*0.8 #increases score based on grid size
+
+    min_possible_moves_actual = (n * n) #minimum moves to get all correct combinations (if 1 pair = 2 moves)
+    buffer=int(0.2*n*n) #allowing some mistakes, changes with n
+    if buffer%2!=0:
+        buffer+=1
+    min_possible_moves_theoretical= min_possible_moves_actual+buffer
+
+    multiplier = round(n*0.8)*1000 #increases score based on grid size, normalized to thousands place
     # display maximum score while total moves are less than or equal to minimum possible moves
-    if totalMoves<=min_possible_moves:
-        return 1000*multiplier 
-   
-    if totalMoves==min_possible_moves:
-        move_penalty=1
+    if totalMoves<=min_possible_moves_theoretical:
+        return multiplier
     else:
-        move_penalty=(totalMoves/min_possible_moves) #more moves, more penalty
-    score = (min_possible_moves / totalMoves) * 1000 * multiplier / move_penalty
+        move_penalty=(totalMoves/min_possible_moves_theoretical) #more moves, more penalty
+    score = (min_possible_moves_theoretical / totalMoves) * multiplier / move_penalty
     # score decreases as number of moves increases (beyond the minimum possible moves)
     return score
 
