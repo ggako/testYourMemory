@@ -573,7 +573,7 @@ def playGame(currentName, n, type=1):
             totalMoves += 1            
 
             # Check if current selection matches or not and update if necessary
-            stateBoard, matchFound = checkMatchUpdateBoard(assignmentBoard, stateBoard, currentSelection, ciDictMap)
+            stateBoard, matchFound = checkMatchUpdateBoard(assignmentBoard, stateBoard, currentSelection, ciMapDict)
 
             # Print indicator of whether the player has found a match
             if matchFound == True:
@@ -590,7 +590,7 @@ def playGame(currentName, n, type=1):
             if gameOver(stateBoard) == True:
                 print(f"Your final score is {totalMovesToScore(totalMoves, n)}")
                 recordGameLog(currentName, totalMovesToScore(totalMoves, n), n)
-                congratsScreen()
+                congratsScreen(currentName)
                 return 0 # Returns user back to main menu
 
     # For save game implementation
