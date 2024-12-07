@@ -145,6 +145,7 @@ def indexToCoordinateMap(n):
             icMapDict[(r, c)] = index
             index += 1
     return icMapDict
+  
 
 # Leaderboard functions
 def readLeaderboard(gameLogFile):
@@ -177,6 +178,7 @@ def readLeaderboard(gameLogFile):
     except FileNotFoundError:
         return leaderboard
 
+      
 # Leaderboard functions
 def displayLeaderboard(leaderboard):
     # Displays the leaderboard.
@@ -190,6 +192,7 @@ def displayLeaderboard(leaderboard):
         print(tabulate(table, headers=["Name", "Score", "Date Achieved"], tablefmt="fancy_grid", numalign="right", colalign=("center", "right", "center")))
         print()
 
+        
 # Main function to display the leaderboard.
 def leaderboards(gameLogFile):
     # Main function to display the leaderboard.
@@ -197,6 +200,22 @@ def leaderboards(gameLogFile):
     displayLeaderboard(leaderboard)
     return 1
 
+  
+def isAddedToLeaderboard(name, score, n, gameLogFile):
+    # Checks if the user's score is added to the leaderboard.
+    leaderboard = readLeaderboard(gameLogFile)
+    if n not in leaderboard:
+        return False
+      
+    entries = leaderboard[n]
+    if entries[-1]['score'] != '':
+        if (len(entries) < 5 or score > entries[-1]['score']):
+            return True
+        return False
+    else:
+        return True
+    
+    
 def getAvailableCoordinates(stateBoard, currentSelection, icMapDict):
     """
     Gets the list of available coordinates (to be used for validity checking in card selection)
