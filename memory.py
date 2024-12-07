@@ -130,7 +130,20 @@ def indexToCoordinateMap(n):
     """
     pass
 
+def isAddedToLeaderboard(name, score, n, gameLogFile):
+    # Checks if the user's score is added to the leaderboard.
+    leaderboard = readLeaderboard(gameLogFile)
+    if n not in leaderboard:
+        return False
 
+    entries = leaderboard[n]
+    if entries[-1]['score'] != '':
+        if (len(entries) < 5 or score > entries[-1]['score']):
+            return True
+        return False
+    else:
+        return True
+    
 def getAvailableCoordinates(stateBoard, currentSelection, icMapDict):
     """
     Gets the list of available coordinates (to be used for validity checking in card selection)
