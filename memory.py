@@ -175,7 +175,7 @@ def displayLeaderboard(leaderboard):
     for size, entries in leaderboard.items():
         print(f"Leaderboard for board size {size}:")
         table = [[entry['name'], entry['score'], entry['date_achieved'].strftime('%Y-%m-%d') if entry['date_achieved'] else ''] for entry in entries]
-        print(tabulate(table, headers=["Name", "Score", "Date Achieved"], tablefmt="grid"))
+        print(tabulate(table, headers=["Name", "Score", "Date Achieved"], tablefmt="fancy_grid", numalign="right", colalign=("center", "right", "center")))
         print()
 
 # Main function to display the leaderboard.
@@ -183,11 +183,7 @@ def leaderboards(gameLogFile):
     # Main function to display the leaderboard.
     leaderboard = readLeaderboard(gameLogFile)
     displayLeaderboard(leaderboard)
-    
-    # Prompt the user to exit
-    user_input = input("Press 'e' to exit the leaderboard: ")
-    if user_input.lower() == 'e':
-        return 1
+    return 1
 
 def getAvailableCoordinates(stateBoard, currentSelection, icMapDict):
     """
