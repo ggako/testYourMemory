@@ -147,7 +147,16 @@ def indexToCoordinateMap(n):
 
 # Leaderboard functions
 def readLeaderboard(gameLogFile):
-    # Reads the leaderboard from the given file and returns the entries.
+    """
+    Reads the leaderboard from the given file and returns the entries
+
+    Parameters:
+        gameLogFile (str): Path of gamelog file
+
+    Returns:
+        leaderboard (dict): Dictionary containing leaderboard entries of each game type     
+    """
+
     leaderboard = {4: [], 6: [], 8: []}
     try:
         with open(gameLogFile, 'r') as file:
@@ -179,7 +188,15 @@ def readLeaderboard(gameLogFile):
       
 # Leaderboard functions
 def displayLeaderboard(leaderboard):
-    # Displays the leaderboard.
+    """
+    Displays the leaderboard
+
+    Parameters:
+        leaderboard (dict): Dictionary containing leaderboard entries of each game type   
+
+    Returns:
+        None     
+    """
     if not leaderboard:
         print("Leaderboard is empty.")
         return
@@ -191,16 +208,31 @@ def displayLeaderboard(leaderboard):
         print()
 
         
-# Main function to display the leaderboard.
 def leaderboards(gameLogFile):
-    # Main function to display the leaderboard.
+    """
+    Main function to display the leaderboard. Calls other leaderboard feature functions.
+
+    Parameters:
+        leaderboard (dict): gameLogFile (str): Path of gamelog file   
+
+    Returns:
+        1 (int): Indicates the return to main menu     
+    """
     leaderboard = readLeaderboard(gameLogFile)
     displayLeaderboard(leaderboard)
     return 1
 
   
 def isAddedToLeaderboard(name, score, n, gameLogFile):
-    # Checks if the user's score is added to the leaderboard.
+    """
+    Checks if the user's latest record is added to the leaderboard
+
+    Parameters:
+        leaderboard (dict): gameLogFile (str): Path of gamelog file   
+
+    Returns:
+        True, if user's latest record is added to leaderboard. Otherwise, False.
+    """
     leaderboard = readLeaderboard(gameLogFile)
     if n not in leaderboard:
         return False
