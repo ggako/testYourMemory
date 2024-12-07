@@ -2,6 +2,7 @@
 
 # Standard Libraries
 from datetime import date
+import math
 import os
 import random
 
@@ -297,7 +298,14 @@ def totalMovesToScore(totalMoves,n):
         buffer+=1
     min_possible_moves_theoretical= min_possible_moves_actual+buffer
 
-    multiplier = round(n*0.8)*1000 #increases score based on grid size, normalized to thousands place
+    if n < 4:
+        # Custom max_score formula for small grids
+        multiplier = 200 * n
+    else:
+        # Normalized max_score for n >= 4
+        # 4x4=2000, 6x6=4000, 8x8=7000
+        multiplier = math.ceil((n * n) / 10) * 1000
+
     # display maximum score while total moves are less than or equal to minimum possible moves
     if totalMoves<=min_possible_moves_theoretical:
         return multiplier
