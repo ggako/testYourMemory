@@ -1,17 +1,15 @@
 # 𝙏𝙚𝙨𝙩 𝙔𝙤𝙪𝙧 𝙈𝙚𝙢𝙤𝙧𝙮: 𝘼 𝙏𝙚𝙭𝙩 𝘽𝙖𝙨𝙚𝙙 𝙈𝙚𝙢𝙤𝙧𝙮 𝙂𝙖𝙢𝙚 
 
 # Standard Libraries
+import csv
 from datetime import date
+from datetime import datetime
 import math
 import os
 import random
 
 # Third Party Libraries
 import pandas as pd
-
-# leadearboard
-import csv
-from datetime import datetime
 from tabulate import tabulate # pip3 install tabulate
 
 
