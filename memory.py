@@ -9,6 +9,10 @@ import random
 # Third Party Libraries
 import pandas as pd
 
+# leadearboard
+import csv
+from datetime import datetime
+from tabulate import tabulate # pip3 install tabulate
 
 
 def initialState(n):
@@ -115,7 +119,13 @@ def coordinateToIndexMap(n):
     Returns:
         ciMapDict (dict): Dictionary which maps a "coordinate" to its i and j index board position
     """
-    pass
+    ciMapDict = {}
+    index = 1
+    for r in range(n):
+        for c in range(n):
+            ciMapDict[index] = (r, c)
+            index += 1
+    return ciMapDict
 
 
 def indexToCoordinateMap(n):
@@ -128,14 +138,75 @@ def indexToCoordinateMap(n):
     Returns:
         icMapDict (dict): Dictionary which maps the i and j index board positions to the "coordinate"     
     """
-    pass
+    icMapDict = {}
+    index = 1
+    for r in range(n):
+        for c in range(n):
+            icMapDict[(r, c)] = index
+            index += 1
+    return icMapDict
+  
 
+# Leaderboard functions
+def readLeaderboard(gameLogFile):
+    # Reads the leaderboard from the given file and returns the entries.
+    leaderboard = {4: [], 6: [], 8: []}
+    try:
+        with open(gameLogFile, 'r') as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                board_size = int(row['GameType'])
+                if board_size in leaderboard:
+                    score = int(row['Score'])
+                    name = row['Name']
+                    date_achieved = datetime.strptime(row['Date'], '%Y-%m-%d')
+
+                    leaderboard[board_size].append({
+                        'name': name,
+                        'score': score,
+                        'date_achieved': date_achieved
+                    })
+
+        for size in leaderboard:
+            leaderboard[size].sort(key=lambda x: (-x['score'], x['date_achieved']))
+            leaderboard[size] = leaderboard[size][:5]
+
+            if len(leaderboard[size]) < 5:
+                leaderboard[size] += [{'name': '', 'score': '', 'date_achieved': ''}] * (5 - len(leaderboard[size]))
+
+        return leaderboard
+    except FileNotFoundError:
+        return leaderboard
+
+      
+# Leaderboard functions
+def displayLeaderboard(leaderboard):
+    # Displays the leaderboard.
+    if not leaderboard:
+        print("Leaderboard is empty.")
+        return
+
+    for size, entries in leaderboard.items():
+        print(f"Leaderboard for board size {size}:")
+        table = [[entry['name'], entry['score'], entry['date_achieved'].strftime('%Y-%m-%d') if entry['date_achieved'] else ''] for entry in entries]
+        print(tabulate(table, headers=["Name", "Score", "Date Achieved"], tablefmt="fancy_grid", numalign="right", colalign=("center", "right", "center")))
+        print()
+
+        
+# Main function to display the leaderboard.
+def leaderboards(gameLogFile):
+    # Main function to display the leaderboard.
+    leaderboard = readLeaderboard(gameLogFile)
+    displayLeaderboard(leaderboard)
+    return 1
+
+  
 def isAddedToLeaderboard(name, score, n, gameLogFile):
     # Checks if the user's score is added to the leaderboard.
     leaderboard = readLeaderboard(gameLogFile)
     if n not in leaderboard:
         return False
-
+      
     entries = leaderboard[n]
     if entries[-1]['score'] != '':
         if (len(entries) < 5 or score > entries[-1]['score']):
@@ -143,6 +214,7 @@ def isAddedToLeaderboard(name, score, n, gameLogFile):
         return False
     else:
         return True
+    
     
 def getAvailableCoordinates(stateBoard, currentSelection, icMapDict):
     """
