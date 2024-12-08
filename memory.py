@@ -461,6 +461,70 @@ def playGame(currentName, n, type=1):
     else:
         pass
 
+def loadRecentUserName(userName):
+
+    currentPath = os.path.dirname(os.path.abspath(__file__))
+    # Specify name log folder path
+    folderpath = './name'
+    # Specify name log file path
+    filepath1 = os.path.join(currentPath, 'name/currentname.txt') 
+    filepath2 = os.path.join(currentPath, 'name/currentnamelist.csv') 
+  # CASE 1: Folder and csv file does not exist
+    if not os.path.exists(folderpath):
+
+        # Create folder
+        os.mkdir('name')
+
+        # Check if file exists (NOTE: This is a redundant check)
+        if not os.path.isfile(filepath1):
+            # Ask for UserName
+            userName = input("Please enter UserName: ") 
+            # Create csv file
+            file1 = open(filepath1, "w")
+            file1.write(userName)
+            file1.close()
+            print(userName)
+            if not os.path.isfile(filepath2):
+                # Create csv file
+                file2 = open(filepath2, "w")
+                id = 1
+                file2.write(f"ID,Name\n")
+                file2.write(f"{id},{userName}\n")
+                file2.close()
+                return userName
+        return userName
+    # CASE 2: CSV Folder already exist 
+    else:
+
+        # CASE 2a: File does not exist
+        if not os.path.isfile(filepath1):
+
+           # Ask for UserName
+            userName = input("Please enter UserName: ") 
+            # Create csv file
+            file1 = open(filepath1, "w")
+            file1.write(userName,"\n")
+            file1.close()
+            return userName
+        # CASE 2b: File already exist
+        else:
+            if os.path.isfile(filepath1):
+                file1 = open(filepath1, "r")
+                userName = file1.readline()
+                return userName
+            # Open currentnamelist.csv
+            if os.path.isfile(filepath2):
+
+                df = pd.read_csv(filepath2)
+            
+            # Get ID of newest game log entry
+                lastRow = list(df.iloc[-1]) # Gets the last row
+                nextID = int(lastRow[0]) + 1 # Gets the index of new entry
+
+            # Add new entry to dataframe
+                df.loc[len(df)] = [nextID, userName]
+            # Save to csv
+                df.to_csv(filepath2, index=False)   
 
 def main():
     """
