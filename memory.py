@@ -602,10 +602,63 @@ def playGame(currentName, n, type=1):
 
 def main():
     """
-    Executes the flow of the program
+    Executes the flow of the game
     """
-    pass
+    # Clear the screen and retrieve the current username
+    clearScreen()
+    currentName = loadRecentUserName()
 
+    # Display the welcome screen
+    welcomeScreen(currentName)
+
+    # Show instructions before starting
+    instructionsScreen()
+
+    # Start the main menu loop
+    while True:
+        choice = mainMenu()
+
+        # Choice 1: Start a New Game
+        if choice == 1:
+            n = int(input("Enter board size (4, 6, or 8): "))
+            while n not in [4, 6, 8]:
+                print("Please choose 4, 6, or 8 as board size.")
+                n = int(input("Enter board size (4, 6, or 8): "))
+            playGame(currentName, n)
+
+        # Choice 2: Load a Saved Game
+        elif choice == 2:
+            saveFolder = "savedGames"
+            try:
+                assignmentBoard, stateBoard, totalMoves, currentSelection = loadBoard(saveFolder)
+                n = len(assignmentBoard)  # Determine board size from the loaded game
+                playGame(currentName, n, type=2)  # Add saved game implementation
+            except FileNotFoundError:
+                print("No saved game found. Please start a new game.")
+                time.sleep(2)
+
+        # Choice 3: Change User
+        elif choice == 3:
+            currentName = setUserName(currentName)
+            updateNameFile(currentName)
+
+        # Choice 4: Instructions
+        elif choice == 4:
+            instructionsScreen()
+
+        # Choice 5: Leaderboards
+        elif choice == 5:
+            gameLogFile = './gamelog/gamelog.csv'
+            leaderboards(gameLogFile)
+
+        # Choice 6: Achievements
+        elif choice == 6:
+            achievement(currentName)
+
+        # Choice 7: Quit
+        elif choice == 7:
+            print("Thanks for playing!")
+            sys.exit()
 
 if __name__ == "__main__":
     main()
