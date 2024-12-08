@@ -881,9 +881,6 @@ def main():
     # Display the welcome screen
     welcomeScreen(currentName)
 
-    # Show instructions before starting
-    instructionsScreen()
-
     # Start the main menu loop
     while True:
         choice = mainMenu()
