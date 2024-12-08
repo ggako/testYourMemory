@@ -461,7 +461,7 @@ def playGame(currentName, n, type=1):
     else:
         pass
 
-def loadRecentUserName(userName):
+def loadRecentUserName():
 
     currentPath = os.path.dirname(os.path.abspath(__file__))
     # Specify name log folder path
