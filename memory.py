@@ -745,6 +745,49 @@ def recordGameLog(currentName, score, n):
             df.to_csv(filepath, index=False)
 
 
+def loadRecentUserName():
+
+    currentPath = os.path.dirname(os.path.abspath(__file__))
+    # Specify name log folder path
+    folderpath = './name'
+    # Specify name log file path
+    filepath1 = os.path.join(currentPath, 'name/currentname.txt') 
+  # CASE 1: Folder and csv file does not exist
+    if not os.path.exists(folderpath):
+
+        # Create folder
+        os.mkdir('name')
+
+        # Check if file exists (NOTE: This is a redundant check)
+        if not os.path.isfile(filepath1):
+            # Ask for UserName
+            userName = input("Please enter UserName: ") 
+            # Create csv file
+            file1 = open(filepath1, "w")
+            file1.write(userName)
+            file1.close()
+        return userName
+    # CASE 2: CSV Folder already exist 
+    else:
+
+        # CASE 2a: File does not exist
+        if not os.path.isfile(filepath1):
+
+           # Ask for UserName
+            userName = input("Please enter UserName: ") 
+            # Create csv file
+            file1 = open(filepath1, "w")
+            file1.write(userName,"\n")
+            file1.close()
+            return userName
+        # CASE 2b: File already exist
+        else:
+            if os.path.isfile(filepath1):
+                file1 = open(filepath1, "r")
+                userName = file1.readline()
+                return userName
+
+
 def playGame(currentName, n, type=1):
     """
     Executes the logic of the game
@@ -826,47 +869,6 @@ def playGame(currentName, n, type=1):
     else:
         pass
 
-def loadRecentUserName():
-
-    currentPath = os.path.dirname(os.path.abspath(__file__))
-    # Specify name log folder path
-    folderpath = './name'
-    # Specify name log file path
-    filepath1 = os.path.join(currentPath, 'name/currentname.txt') 
-  # CASE 1: Folder and csv file does not exist
-    if not os.path.exists(folderpath):
-
-        # Create folder
-        os.mkdir('name')
-
-        # Check if file exists (NOTE: This is a redundant check)
-        if not os.path.isfile(filepath1):
-            # Ask for UserName
-            userName = input("Please enter UserName: ") 
-            # Create csv file
-            file1 = open(filepath1, "w")
-            file1.write(userName)
-            file1.close()
-        return userName
-    # CASE 2: CSV Folder already exist 
-    else:
-
-        # CASE 2a: File does not exist
-        if not os.path.isfile(filepath1):
-
-           # Ask for UserName
-            userName = input("Please enter UserName: ") 
-            # Create csv file
-            file1 = open(filepath1, "w")
-            file1.write(userName,"\n")
-            file1.close()
-            return userName
-        # CASE 2b: File already exist
-        else:
-            if os.path.isfile(filepath1):
-                file1 = open(filepath1, "r")
-                userName = file1.readline()
-                return userName
 
 def main():
     """
