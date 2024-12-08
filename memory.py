@@ -8,6 +8,7 @@ import math
 import os
 import platform
 import random
+import time
 
 # Third Party Libraries
 from art import text2art
@@ -883,6 +884,7 @@ def main():
 
     # Start the main menu loop
     while True:
+
         choice = mainMenu()
 
         # Choice 1: Start a New Game
