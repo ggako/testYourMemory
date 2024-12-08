@@ -598,7 +598,7 @@ def select_difficulty():
 
 def mainMenu():
     animated_header()
-    handle_menu()
+    return handle_menu()
 
 
 def clearScreen():
