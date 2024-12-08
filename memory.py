@@ -886,49 +886,48 @@ def main():
     # Start the main menu loop
     while True:
 
-        choice = mainMenu()
+        choice = -1 # Arbitrary choice to enter while loop
+
+        # Stay at the main menu if user selects an unimplemented function
+        while choice not in [1, 7]:
+            choice = mainMenu()
+            if choice not in [1, 7]:
+                clearScreen()
+                print("Menu item 2,3,4,5,6 is not yet implemented")
+                time.sleep(2) # 2 seconds delay
+                clearScreen()
 
         # Choice 1: Start a New Game
         if choice == 1:
-            n = int(input("Enter board size (4, 6, or 8): "))
-            while n not in [4, 6, 8]:
-                print("Please choose 4, 6, or 8 as board size.")
-                n = int(input("Enter board size (4, 6, or 8): "))
-            playGame(currentName, n)
+            n = select_difficulty()
+            playGame(currentName, n, type=1)
 
         # Choice 2: Load a Saved Game
         elif choice == 2:
-            saveFolder = "savedGames"
-            try:
-                assignmentBoard, stateBoard, totalMoves, currentSelection = loadBoard(saveFolder)
-                n = len(assignmentBoard)  # Determine board size from the loaded game
-                playGame(currentName, n, type=2)  # Add saved game implementation
-            except FileNotFoundError:
-                print("No saved game found. Please start a new game.")
-                time.sleep(2)
+            raise Exception("Function not yet implemented")
 
         # Choice 3: Change User
         elif choice == 3:
-            currentName = setUserName(currentName)
-            updateNameFile(currentName)
-
+            raise Exception("Function not yet implemented")
+        
         # Choice 4: Instructions
         elif choice == 4:
-            instructionsScreen()
+            raise Exception("Function not yet implemented")
+            # instructionsScreen()
 
         # Choice 5: Leaderboards
         elif choice == 5:
-            gameLogFile = './gamelog/gamelog.csv'
-            leaderboards(gameLogFile)
-
+            raise Exception("Function not yet implemented")
+        
         # Choice 6: Achievements
         elif choice == 6:
-            achievement(currentName)
+            raise Exception("Function not yet implemented")
 
         # Choice 7: Quit
         elif choice == 7:
             print("Thanks for playing!")
             sys.exit()
+
 
 if __name__ == "__main__":
     main()
