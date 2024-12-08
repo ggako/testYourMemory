@@ -6,11 +6,20 @@ from datetime import date
 from datetime import datetime
 import math
 import os
+import platform
 import random
 
 # Third Party Libraries
+from art import text2art
+from colorama import Fore, Style, init
 import pandas as pd
+from pyfiglet import Figlet
 from tabulate import tabulate # pip3 install tabulate
+
+
+# Initialize the colorama module for adding stylized text
+init()
+
 
 
 def initialState(n):
@@ -357,19 +366,237 @@ def checkMatchUpdateBoard(assignmentBoard, stateBoard, currentSelection, ciDictM
         return stateBoard, False
 
 
-def mainMenu():
+def animated_header():
     """
-    Prints a main menu interface that asks the user for input
+    Provides a flashy animation for the menu's header via a three-cycle for-loop.
 
-    Parameters:
-        None
-    Returns:
-        1 (int): If user wants to start a new game
-        ...
-        ...
-        ...
+    Arguments: None
+
+    Returns: None
     """
-    pass
+
+    # Creates Figlet instance with "slant" as the font for the animated header
+    fig = Figlet(font="slant") 
+    title, subheader = f"TEST YOUR MEMORY  !", f"\t   A TEXT-BASED MEMORY GAME"
+
+    # The list of colors to cycle for the flashing effect
+    shown_colors = [Fore.RED, Fore.YELLOW, Fore.CYAN, Fore.MAGENTA, Fore.BLUE, Fore.GREEN]
+
+    # Loop for the animation (repeats three times)
+    for cycle in range(3):
+        for color in shown_colors:
+            clearScreen()
+
+            # We display an upper and lower border for the header during the final cycle
+            if cycle == 2:
+                print(color + "=" * 50)
+                print(" ")
+                print(color + fig.renderText(title))
+                print(color + text2art(subheader, font='fancy141'), f"\n")
+                # print(color + "=" * 50 + Style.RESET_ALL)
+                print(color + "=" * 50)
+
+            # First few cycles has no border. We show just the header
+            else:
+                print(" ")
+                print(" ")
+                print(color + fig.renderText(title))
+            time.sleep(0.15)
+
+    # Displays the final frame of the header after the flashing effect
+    clearScreen()
+    print(Fore.CYAN + "=" * 50)
+    print(" ")
+    print(Fore.GREEN + fig.renderText(title))
+    print(Fore.GREEN + text2art(f"\t   A TEXT-BASED MEMORY GAME", font='fancy141'), f"\n")
+    print(Fore.CYAN + "=" * 50 + Style.RESET_ALL)
+
+    # Next, we display the player's options sequentially
+    # The texts and borders are complemented with 'colorama.Fore' 
+    # to change their colors for an arcade-like experience
+    player_options = [(Fore.GREEN, f"    1. New Game"), 
+               (Fore.BLUE, f"    2. Load Game"),
+               (Fore.YELLOW, f"    3. Change User"), 
+               (Fore.CYAN, f"    4. Instructions"), 
+               (Fore.BLUE, f"    5. Leaderboards"),
+               (Fore.MAGENTA, f"    6. Achievements"),
+               (Fore.RED, f"    7. Quit")]
+
+    for color, option in player_options:
+        print(color + option + Style.RESET_ALL)
+        time.sleep(0.5)
+
+    print(Fore.CYAN + "=" * 50 + Style.RESET_ALL)
+
+
+def show_menu(selected=1):
+    """
+    handle_menu()'s helper function for displaying a menu instance during player navigation.
+
+    Arguments: selected (int): A selection index (1-7) that corresponds to a menu option
+
+    Returns: None
+    """
+
+    options = ["New Game", "Load Game", "Change User", "Instructions", "Leaderboards", "Achievements", "Quit"]
+    clearScreen()
+    fig = Figlet(font="slant")
+    print(Fore.CYAN + "=" * 50)
+    print(" ")
+    print(Fore.GREEN + fig.renderText("TEST YOUR  MEMORY  !"))  # Main header in green
+    # print(f"\t    {Back.GREEN} A CLASSIC MEMORY GAME", Back.RESET, "\n")
+    print(Fore.WHITE + text2art(f"\t   A TEXT-BASED MEMORY GAME", font='fancy141'), f"\n") 
+    print(Fore.CYAN + "=" * 50 + Style.RESET_ALL)
+
+    # Highlights the selected option
+    for index, option in enumerate(options, start=1):
+        if index == selected:
+            print(Fore.GREEN + f"--> {index}. {option}" + Style.RESET_ALL)
+        else:
+            print(Fore.WHITE + f"    {index}. {option}" + Style.RESET_ALL)
+    print(Fore.CYAN + "=" * 50 + Style.RESET_ALL)
+    # print(Fore.YELLOW + "Use ↑/↓ to navigate and 'Enter' to select." + Style.RESET_ALL)
+
+
+# Cross-platform keypress handling
+if platform.system() == "Windows":
+    import msvcrt # For capturing key presses on Windows
+
+    def getch():
+        """Captures a single keypress from the user on Windows."""
+        return msvcrt.getch().decode('utf-8')
+
+elif platform.system() in ["Linux", "Darwin"]:  # Darwin is for macOS
+    import termios
+    import tty
+
+    def getch():
+        """
+        Captures a single keypress from the user on macOS/Linux systems.
+
+        This function uses "terminal configurations" to capture a single character
+        from the input.
+
+        Arguments: None
+
+        Returns: key (str): The key pressed by the user repr. as an escape sequence
+        """
+
+        # https://stackoverflow.com/questions/44736580/read-any-key-pressed-without-pressing-enter
+        fd = sys.stdin.fileno()
+        old_settings = termios.tcgetattr(fd)
+        try:
+            tty.setraw(fd)
+
+            # This will capture the 'return' key on Linux-based systems 
+            # It resolves to '\x1b (or 27 in ord())' when an arrow key is pressed
+            key = sys.stdin.read(1)  
+
+            # For arrow keys, we need to set read to 2 to capture the 
+            # full escape sequence ("\x1b[A" for up arrow and "\x1b[B" for down)
+            if ord(key) == 27:
+                key += sys.stdin.read(2)
+        finally:
+            termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+        return key
+
+
+def handle_menu():
+    """
+    Allows the user to navigate the menu using the up and down arrow keys
+    and select an option using the Enter key.
+
+    Arguments: None
+
+    Returns: selected (int): Index (1-7) corresponding to an option selected by the player
+    """
+
+    # Selection index we pass as an argument to show_menu(). Default is 1
+    selected = 1  
+
+    # Represents the number of player options in the menu
+    # We can add more (e.g., Load From Save) as we progress
+    total_options = 7
+
+    while True:
+        show_menu(selected)  # Show the menu with the current selection
+        print(Fore.YELLOW + "Use ↑/↓ to navigate and Enter to select." + Style.RESET_ALL)
+        key = getch()  # Get key input
+
+        if key == (chr(72) if platform.system() == "Windows" else "\x1b[A"):  # decimal 72 represents up arrow key
+            selected = (selected - 1) % total_options  # Wrap around if at the top
+        elif key == (chr(80) if platform.system() == "Windows" else "\x1b[B"):  # decimal 80 represents down arrow key
+            selected = (selected + 1) % total_options  # Wrap around if at the bottom
+        elif key == (chr(13) if platform.system() == "Windows" else "\r"):  # Enter key
+            if selected == 2:
+                print(Fore.BLUE + "Fetching saved games..." + Style.RESET_ALL)
+            elif selected == 3:
+                print(Fore.BLUE + "Fetching user list..." + Style.RESET_ALL)
+            elif selected == 4:
+                print(Fore.BLUE + "Instructions: Match all pairs in the board to win!" + Style.RESET_ALL)
+                input("Press Enter to return to the menu...")
+                continue
+            elif selected == 5:
+                print(Fore.BLUE + "Loading leaderboards..." + Style.RESET_ALL)            
+            elif selected == 6:
+                print(Fore.BLUE + "Loading player achievements..." + Style.RESET_ALL)
+            elif selected == 7:
+                print(Fore.RED + "Exiting the game. Goodbye!" + Style.RESET_ALL)
+                time.sleep(1)
+                exit()
+            time.sleep(1)
+            return selected
+        if selected == 0:  # "selected" becomes 0 when at "7. Quit" due to the modulo operation with "total_options"
+            selected = 7  # We do a reassignment here to reflect the correct index at "show_menu()"
+
+
+def select_difficulty():
+    """
+    Allows the user to select a difficulty level for the game.
+    The user can navigate between difficulty options using the up and down
+    arrow keys and select one using the Enter key.
+
+    Arguments: None
+
+    Returns: diff_level (int): An integer (4, 6, or 8)corresponding to the difficulty level chosen by the user
+    """
+
+    difficulties = {"Casual (4x4 Board)":4, "Serious (6x6 Board)":6, "Challenging (8x8 Board)":8}
+    selected = 0  # Default selection is "Casual"
+    total_options = len(difficulties)
+
+    while True:
+        clearScreen()
+        print(Fore.CYAN + "=" * 50)
+        print(" ")
+        print(Fore.BLUE + Figlet(font="straight").renderText(f" SELECT DIFFICULTY")) # Alternative font style
+        print(Fore.CYAN + "=" * 50 + Style.RESET_ALL)
+        print(" ")
+ 
+        for index, difficulty in enumerate(difficulties.keys()):
+            if index == selected:
+                print(Fore.GREEN + f"--> {index + 1}. {difficulty}" + Style.RESET_ALL)
+            else:
+                print(Fore.WHITE + f"    {index + 1}. {difficulty}" + Style.RESET_ALL)
+        print(" ")
+        print(Fore.YELLOW + "Use ↑/↓ to navigate and Enter to select." + Style.RESET_ALL)
+
+        key = getch()  # Get key input
+        if key == (chr(72) if platform.system() == "Windows" else "\x1b[A"):  # Up arrow key
+            selected = (selected - 1) % total_options
+        elif key == (chr(80) if platform.system() == "Windows" else "\x1b[B"):  # Down arrow key
+            selected = (selected + 1) % total_options
+        elif key == (chr(13) if platform.system() == "Windows" else "\r"):  # Enter key
+
+            # Converts key values into a list then indexed with the current "select" value.
+            # The resulting lookup maps to the corresponding diff. level (4, 6, or 8)
+            diff_level = difficulties[list(difficulties.keys())[selected]]
+            return diff_level
+        
+
+def mainMenu():
+    animated_header()
+    handle_menu()
 
 
 def clearScreen():
