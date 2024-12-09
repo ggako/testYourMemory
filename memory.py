@@ -345,7 +345,7 @@ def selectCard(stateBoard, currentSelection, icMapDict):
 
     # Ask user for a card they want to select
     try:
-        cardSelected = int(input("Select coordinate of card to flip: "))
+        cardSelected = int(input("Select card to flip: "))
 
         # TODO: Feature not implemented: Option to exit while selecting card
 
