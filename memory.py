@@ -921,6 +921,7 @@ def main():
         # Choice 1: Start a New Game
         if choice == 1:
             n = select_difficulty()
+            clearScreen()
             playGame(currentName, n, type=1)
 
         # Choice 2: Load a Saved Game
