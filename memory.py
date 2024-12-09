@@ -104,7 +104,7 @@ def gameOver(stateBoard):
     return True  # All cards are revealed
 
 
-def displayBoard(assignmentBoard, stateBoard, selectedCard):
+def displayBoard(assignmentBoard, stateBoard, selectedCard, ciMapDict):
     """
     Displays board to be played each move of the game. Also, display the current score
 
