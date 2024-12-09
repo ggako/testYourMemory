@@ -891,7 +891,7 @@ def playGame(currentName, n, type=1):
             # Check if game is over
             if gameOver(stateBoard) == True:
                 print(f"Your final score is {totalMovesToScore(totalMoves, n)}")
-                recordGameLog(currentName, totalMovesToScore(totalMoves, n), n)
+                recordGameLog(currentName, int(totalMovesToScore(totalMoves, n)), n)
                 congratsScreen(currentName)
                 return 0 # Returns user back to main menu
 
