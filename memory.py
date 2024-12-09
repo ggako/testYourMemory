@@ -840,7 +840,7 @@ def playGame(currentName, n, type=1):
 
             # Selecting first card of the round
             while selectedCard == False:
-                displayBoard(stateBoard, assignmentBoard, selectedCard, ciMapDict)
+                displayBoard(assignmentBoard, stateBoard, selectedCard, ciMapDict)
                 selectedCard = selectCard(stateBoard, currentSelection, icMapDict)
                 clearScreen()
 
@@ -854,7 +854,7 @@ def playGame(currentName, n, type=1):
 
             # Selecting second card of the round
             while selectedCard == False:
-                displayBoard(stateBoard, assignmentBoard, selectedCard, ciMapDict)
+                displayBoard(assignmentBoard, stateBoard, selectedCard, ciMapDict)
                 selectedCard = selectCard(stateBoard, currentSelection, icMapDict)
                 clearScreen()            
 
