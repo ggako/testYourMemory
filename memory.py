@@ -645,7 +645,7 @@ def welcomeScreen(currentName):
     input("Press Enter to start the game...")
 
 
-def congratsScreen(currentName):
+def congratsScreen(currentName, score):
     """
     Displays a congratulation screen
     """
@@ -654,6 +654,7 @@ def congratsScreen(currentName):
     print("*   CONGRATULATIONS!       *")
     print("****************************")
     print(f"Well done, {currentName}!")
+    print(f"Your final score is {score}")
     print("You've reached the leaderboard!")
     print("Keep playing to improve your score!")
     print()
@@ -1048,9 +1049,8 @@ def playGame(currentName, n, type=1):
 
             # Check if game is over
             if gameOver(stateBoard) == True:
-                print(f"Your final score is {totalMovesToScore(totalMoves, n)}")
                 recordGameLog(currentName, int(totalMovesToScore(totalMoves, n)), n)
-                congratsScreen(currentName)
+                congratsScreen(currentName, int(totalMovesToScore(totalMoves, n)))
                 return 0 # Returns user back to main menu
 
     # For save game implementation
