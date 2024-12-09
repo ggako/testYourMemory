@@ -114,6 +114,7 @@ def displayBoard(assignmentBoard, stateBoard, selectedCard, ciMapDict):
         assignmentBoard (list): multidimensional list of size n x n containing the assignments
         stateBoard (list): multidimensional list of size n x n containing the state
         selectedCard (list): list containing the currently selected cards of the player
+        ciMapDict (dict): Dictionary which maps a "coordinate" to its i and j index board position
 
     Returns:
         None (only prints the board)    
