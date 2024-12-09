@@ -120,13 +120,16 @@ def displayBoard(assignmentBoard, stateBoard, selectedCard):
     """
     hidden_counter = 1  # Starting number of the cards in a selected boardsize
     
-    if selectedCard is None:
-        selectedCard = set()  # Default to an empty set if not provided
+    # Get coordinates of selectedCard
+    coordSelectedCard = []
+
+    for card in selectedCard:
+        coordSelectedCard.append(ciMapDict[card])
 
     for i, card in enumerate(assignmentBoard):
         card_display = []
         for j, value in enumerate(card):
-            if stateBoard[i][j] or (i, j) in selectedCard: # (i,j) in selected card is coordinate of the selected card
+            if stateBoard[i][j] or (i, j) in coordSelectedCard: # (i,j) in selected card is coordinate of the selected card
                 card_display.append(f"{value:^5}")  # Show actual value if revealed match or temporarily revealed as Selected card
             else:
                 card_display.append(f"{hidden_counter:^5}")  # Show sequential number if hidden
