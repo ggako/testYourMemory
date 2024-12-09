@@ -841,12 +841,16 @@ def playGame(currentName, n, type=1):
 
             # Selecting first card of the round
             while selectedCard == False:
-                displayBoard(assignmentBoard, stateBoard, selectedCard, ciMapDict)
+                displayBoard(assignmentBoard, stateBoard, currentSelection, ciMapDict)
                 selectedCard = selectCard(stateBoard, currentSelection, icMapDict)
                 clearScreen()
 
             # Add card to current selection
             currentSelection.append(selectedCard)
+
+            displayBoard(assignmentBoard, stateBoard, currentSelection, ciMapDict)
+            time.sleep(1) # 2 seconds delay
+            clearScreen()
 
             # Update total moves
             totalMoves += 1            
@@ -855,12 +859,16 @@ def playGame(currentName, n, type=1):
 
             # Selecting second card of the round
             while selectedCard == False:
-                displayBoard(assignmentBoard, stateBoard, selectedCard, ciMapDict)
+                displayBoard(assignmentBoard, stateBoard, currentSelection, ciMapDict)
                 selectedCard = selectCard(stateBoard, currentSelection, icMapDict)
                 clearScreen()            
 
             # Add card to current selection
             currentSelection.append(selectedCard)
+
+            displayBoard(assignmentBoard, stateBoard, currentSelection, ciMapDict)
+            time.sleep(2) # 2 seconds delay
+            clearScreen()
 
             # Update total moves
             totalMoves += 1            
