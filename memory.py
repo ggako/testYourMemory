@@ -252,6 +252,7 @@ def leaderboards(gameLogFile):
     """
     leaderboard = readLeaderboard(gameLogFile)
     displayLeaderboard(leaderboard)
+    time.sleep(10)
     return 1
 
   
@@ -918,9 +919,9 @@ def main():
         choice = -1 # Arbitrary choice to enter while loop
 
         # Stay at the main menu if user selects an unimplemented function
-        while choice not in [1, 7]:
+        while choice not in [1, 7, 5]:
             choice = mainMenu()
-            if choice not in [1, 7]:
+            if choice not in [1, 7, 5]:
                 clearScreen()
                 print("Menu item 2,3,4,5,6 is not yet implemented")
                 time.sleep(2) # 2 seconds delay
@@ -947,7 +948,8 @@ def main():
 
         # Choice 5: Leaderboards
         elif choice == 5:
-            raise Exception("Function not yet implemented")
+            leaderboards("gamelog/gamelog.csv")
+            # raise Exception("Function not yet implemented")
         
         # Choice 6: Achievements
         elif choice == 6:
