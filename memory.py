@@ -875,6 +875,32 @@ def updateNameListFile(currentNameList):
     pass
 
 
+def getCurrentName():
+    """
+    Helper function: 
+    Reads and returns current user name from file
+    
+    Parameters:
+        None
+    Returns:
+        currentUserName (str): Current username of the player     
+    """
+    pass
+
+
+def getCurrentNameList():
+    """
+    Helper function:
+    Reads and returns current name list from file
+    
+    Parameters:
+        None
+    Returns:
+        currentNameList (list): List containing all names of created users    
+    """
+    pass
+
+
 def encryptBoard(assignmentBoard):
     """
     Returns an encrypted assignment board and key used for encryption
