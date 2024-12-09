@@ -123,8 +123,9 @@ def displayBoard(assignmentBoard, stateBoard, selectedCard, ciMapDict):
     # Get coordinates of selectedCard
     coordSelectedCard = []
 
-    for card in selectedCard:
-        coordSelectedCard.append(ciMapDict[card])
+    if selectedCard != False:
+        for card in selectedCard:
+            coordSelectedCard.append(ciMapDict[card])
 
     for i, card in enumerate(assignmentBoard):
         card_display = []
