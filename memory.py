@@ -100,7 +100,7 @@ def gameOver(stateBoard):
     pass
 
 
-def displayBoard(assignmentBoard, stateBoard, totalMoves, currentSelection):
+def displayBoard(assignmentBoard, stateBoard, selectedCard):
     """
     Displays board to be played each move of the game. Also, display the current score
 
@@ -109,13 +109,26 @@ def displayBoard(assignmentBoard, stateBoard, totalMoves, currentSelection):
     Parameters:
         assignmentBoard (list): multidimensional list of size n x n containing the assignments
         stateBoard (list): multidimensional list of size n x n containing the state
-        totalMoves (int): score of the game
-        currentSelection (list): list containing the currently selected cards of the player
+        selectedCard (list): list containing the currently selected cards of the player
 
     Returns:
         None (only prints the board)    
     """
-    pass
+    hidden_counter = 1  # Starting number of the cards in a selected boardsize
+    
+    if selectedCard is None:
+        selectedCard = set()  # Default to an empty set if not provided
+
+    for i, card in enumerate(assignmentBoard):
+        card_display = []
+        for j, value in enumerate(card):
+            if stateBoard[i][j] or (i, j) in selectedCard: # (i,j) in selected card is coordinate of the selected card
+                card_display.append(f"{value:^5}")  # Show actual value if revealed match or temporarily revealed as Selected card
+            else:
+                card_display.append(f"{hidden_counter:^5}")  # Show sequential number if hidden
+            hidden_counter += 1  # Increment counter for the next hidden value
+        print(f"{'|'.join(card_display)}")  # Print card with indices and values
+        print()
 
 
 def coordinateToIndexMap(n):
