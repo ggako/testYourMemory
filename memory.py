@@ -97,7 +97,11 @@ def gameOver(stateBoard):
     Returns:
         Returns True if the board is in the terminal state / no more cards left, False otherwise
     """
-    pass
+    for row in stateBoard:
+        for all_card_revealed in row:
+            if not all_card_revealed:  # If any card is not revealed
+                return False
+    return True  # All cards are revealed
 
 
 def displayBoard(assignmentBoard, stateBoard, selectedCard):
