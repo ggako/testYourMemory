@@ -813,6 +813,138 @@ def loadRecentUserName():
                 return userName
 
 
+def instructionsScreen():
+    """
+    Displays the instructions screen / mechanics of the game
+
+    Parameters:
+        None
+    Returns:
+        0 (int): Signal to return back to main menu    
+    """
+    pass
+
+
+def updateGameLog(currentNameList):
+    """
+    If a user is deleted, this function updates the game log file (deletes all log entries of deleted user)
+    After updating, reorganizes the log such that there are no empty rows
+
+    Parameters:
+        currentNameList (list): List containing all names of created users
+    Returns:
+        None (only updates the game log file)   
+    """
+    pass
+
+
+def setUserName():
+    """
+    Displays a screen that allows user to add user, change current user, delete user
+
+    After adding/deleting users or changing current user, it should reflect on updating the files containing usernames and current name
+    
+    Parameters:
+        None
+    Returns:
+        None
+    """
+    pass
+
+
+def updateNameFile(currentUserName):
+    """
+    Updates the "currentName.txt" file based on the currentUserName input
+
+    Parameters:
+        currentUserName (str): Current username of the player
+    Returns:
+        None
+    """
+    pass
+
+
+def updateNameListFile(currentNameList):
+    """
+    Updates the "currentNameList.csv" file based on the currentNameList input
+
+    Parameters:
+        currentNameList (list): List containing all names of created users
+    Returns:
+        None
+    """
+    pass
+
+
+def encryptBoard(assignmentBoard):
+    """
+    Returns an encrypted assignment board and key used for encryption
+
+    Parameters:
+        assignmentBoard (list): multidimensional list of size n x n containing the assignments
+    Returns:
+        encryptedBoard (list): version of assignment board where every element is encrypted
+        key: key object generated during encryption / to be used for decryption  
+    """
+    pass
+
+
+def decryptBoard(encryptedBoard, key):
+    """
+    Returns the original assignment board from the encrypted board
+    
+    Parameters:
+        encryptedBoard (list): version of assignment board where every element is encrypted
+        key: key object generated during encryption / to be used for decryption  
+    Returns:
+        assignmentBoard (list): multidimensional list of size n x n containing the assignments
+    """
+    pass
+
+
+def saveBoard(assignmentBoard, stateBoard, currentSelection, totalMoves):
+    """
+    Exports the assignment board, state board, current selection and total moves to a file that could be loaded for later use
+    
+    Parameters:
+        assignmentBoard (list): multidimensional list of size n x n containing the assignments
+        stateBoard (list): multidimensional list of size n x n containing the state
+        currentSelection (list): list containing the 2 currently selected cards of the player
+        totalMoves (int): total moves by the user
+    Returns:
+        None
+    """
+    pass
+
+
+def loadBoard():
+    """
+    Loads and returns the state board, assignment board, currentSelection 
+    and total moves of a previous game
+
+    Parameters:
+        None
+    Returns:
+        assignmentBoard (list): multidimensional list of size n x n containing the assignments
+        stateBoard (list): multidimensional list of size n x n containing the state
+        currentSelection (list): list containing the 2 currently selected cards of the player
+        totalMoves (int): total moves by the user
+    """
+    pass
+
+
+def achievement():
+    """
+    Displays a table of "achievements"
+
+    Parameters:
+        None
+    Returns:
+        None
+    """
+    pass
+
+
 def playGame(currentName, n, type=1):
     """
     Executes the logic of the game
