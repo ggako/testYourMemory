@@ -16,12 +16,11 @@ from art import text2art
 from colorama import Fore, Style, init
 import pandas as pd
 from pyfiglet import Figlet
-from tabulate import tabulate # pip3 install tabulate
+from tabulate import tabulate 
 
 
 # Initialize the colorama module for adding stylized text
 init()
-
 
 
 def initialState(n):
