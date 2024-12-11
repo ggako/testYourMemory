@@ -843,37 +843,144 @@ def setUserName():
     Displays a screen that allows user to add user, change current user, delete user
 
     After adding/deleting users or changing current user, it should reflect on updating the files containing usernames and current name
-    
-    Parameters:
-        None
-    Returns:
-        None
     """
-    pass
+    userFile = "name/currentname.txt"
+    usersFile = "name/currentnamelist.csv"
 
+    # Note: userFile already confirmed to be existing     
+    with open(userFile, 'r') as currentUser:
+        for line in currentUser:
+            currentPlayer = line
 
-def updateNameFile(currentUserName):
+    while True:
+        try:
+            clearScreen()
+            print(f"The Current Player is: {currentPlayer}")
+            print("\n\u2660 Options \u2660")
+            print("[ 1  ] - Change Player")
+            print("[ 2  ] - Add Player")
+            print("[ 3  ] - Delete Player")
+            print("[ 0  ] - Return To Previous Menu")
+            option = int(input("\nSelect Option Number: "))
+            
+            if option in [1, 2, 3, 0]:
+                break
+
+        except:
+            pass
+
+    if option == 1:
+        updateNameFile(currentPlayer, userFile, usersFile, "change")
+    elif option == 2:
+        updateNameListFile(currentPlayer, userFile, usersFile)
+    elif option == 3:
+        updateNameFile(currentPlayer, userFile, usersFile, "delete")
+        #updateGameLog(currentNameList)
+    else:
+        # Go back to main menu
+        main()
+        
+    return
+
+def updateNameFile(currentPlayer, userFile, usersFile, mode):
     """
     Updates the "currentName.txt" file based on the currentUserName input
 
     Parameters:
-        currentUserName (str): Current username of the player
+        currentPlayer (str): Current username of the player
+        userFile: File containing name of current player
+        usersFile: File containing list of users
+        mode: "change" or "delete" a player
+
     Returns:
         None
     """
-    pass
 
+    playerNum = 1
+    playerList = {}   
 
-def updateNameListFile(currentNameList):
+    # Just in case the playersList file is missing
+    if not os.path.isfile(usersFile):
+        with open(usersFile, 'w') as f:
+            f.write(f"{currentPlayer}")
+
+    # Retrieve the players list from csv
+    with open(usersFile, 'r') as usersList:
+        for user in usersList:
+            if user.strip() != currentPlayer:
+                playerList[playerNum] = user.strip()
+                playerNum += 1
+    
+    # If players list is empty, go back to main menu
+    if len(playerList) == 0:
+        print("Looks like you're the only player \U0001F605")
+        key = input("Press a Enter to continue")
+        setUserName()
+
+    else:
+        while True:
+            try:
+                clearScreen()
+                print(f"The Current Player is: {currentPlayer}")
+                print("\n\u2663 Player Select \u2663")
+                for k, v in playerList.items():
+                    print ("[ {:<3}] - {}".format(k, v))
+                print("---\n[ 0  ] - Return To Previous Menu")
+                
+                if mode == "change":
+                    option = int(input("\nEnter Player Number: "))
+                else:
+                    option = int(input("\nEnter Player Number to Delete: "))
+                
+                if option < len(playerList) + 1:
+                    break
+            except:
+                pass
+
+        if option > 0:
+            if mode == "change":
+                with open(userFile, 'w') as f:
+                    f.write(playerList[option])
+            else:
+                del playerList[option]
+                with open(usersFile, 'w') as f:
+                    for v in playerList.values():
+                        f.write(f"{v}\n")
+                    f.write(currentPlayer)
+        
+        setUserName()
+
+    return
+
+def updateNameListFile(currentPlayer, userFile, usersFile):
+
     """
-    Updates the "currentNameList.csv" file based on the currentNameList input
+    Adds a new user to the currentNameList file
 
     Parameters:
-        currentNameList (list): List containing all names of created users
+        currentPlayer (str): Current username of the player
+        userFile: File containing name of current player
+        usersFile: File containing list of users
+
     Returns:
         None
     """
-    pass
+
+    clearScreen()
+    print("HERE COMES A NEW CHALLENGER!")
+    challenger = input("\nPlease Enter Your Name: ")
+
+    if challenger != currentPlayer:
+
+        with open(userFile, 'w') as f:
+            f.write(challenger)
+
+        with open(usersFile, 'a') as f:
+            f.write(f"\n{challenger}")
+
+    setUserName()
+
+    return
 
 
 def getCurrentName():
