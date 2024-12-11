@@ -1077,11 +1077,11 @@ def main():
         choice = -1 # Arbitrary choice to enter while loop
 
         # Stay at the main menu if user selects an unimplemented function
-        while choice not in [1, 7, 5]:
+        while choice not in [1, 3, 5, 7]:
             choice = mainMenu()
-            if choice not in [1, 7, 5]:
+            if choice not in [1, 3, 5, 7]:
                 clearScreen()
-                print("Menu item 2,3,4,5,6 is not yet implemented")
+                print("Menu items 2,4,6 is not yet implemented")
                 time.sleep(2) # 2 seconds delay
                 clearScreen()
 
@@ -1097,7 +1097,7 @@ def main():
 
         # Choice 3: Change User
         elif choice == 3:
-            raise Exception("Function not yet implemented")
+            setUserName()
         
         # Choice 4: Instructions
         elif choice == 4:
