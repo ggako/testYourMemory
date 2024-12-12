@@ -766,7 +766,7 @@ def recordGameLog(currentName, score, n):
             # Add new entry to dataframe
             df.loc[len(df)] = [nextID, currentName, score, n, today]
 
-            # Save to csv
+             # Save to csv
             df.to_csv(filepath, index=False)
 
 def loadRecentUserName():
@@ -775,7 +775,7 @@ def loadRecentUserName():
     # Specify name log folder path
     folderpath = './name'
     # Specify name log file path
-    filepath1 = os.path.join(currentPath, 'name/currentname.txt') 
+    filepath = os.path.join(currentPath, 'name/currentname.txt') 
   # CASE 1: Folder and csv file does not exist
     if not os.path.exists(folderpath):
 
@@ -795,15 +795,15 @@ def loadRecentUserName():
                     print(f"Welcome to the game, {userName}!!!")
                     break 
             # Create csv file
-            file1 = open(filepath1, "w")
-            file1.write(userName)
-            file1.close()
+            file = open(filepath, "w")
+            file.write(userName)
+            file.close()
         return userName
     # CASE 2: CSV Folder already exist 
     else:
 
         # CASE 2a: File does not exist
-        if not os.path.isfile(filepath1):
+        if not os.path.isfile(filepath):
             # Ask for Username with 
             # Input Validation for Username Length between 3 to 15 Characters
             while True:
@@ -815,15 +815,15 @@ def loadRecentUserName():
                     print(f"Welcome to the game, {userName}!!!")
                     break   
                     # Create csv file
-            file1 = open(filepath1, "w")
-            file1.write(userName,"\n")
-            file1.close()
+            file = open(filepath, "w")
+            file.write(userName+"\n")
+            file.close()
             return userName
         # CASE 2b: File already exist
         else:
-            if os.path.isfile(filepath1):
-                file1 = open(filepath1, "r")
-                userName = file1.readline()
+            if os.path.isfile(filepath):
+                file = open(filepath, "r")
+                userName = file.readline()
                 return userName
 
 def instructionsScreen():
