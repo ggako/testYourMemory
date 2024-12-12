@@ -852,6 +852,11 @@ def setUserName():
         for line in currentUser:
             currentPlayer = line
 
+    # Just in case the playersList file is missing
+    if not os.path.isfile(usersFile):
+        with open(usersFile, 'w') as f:
+            f.write(f"{currentPlayer}")
+
     while True:
         try:
             clearScreen()
@@ -898,11 +903,6 @@ def updateNameFile(currentPlayer, userFile, usersFile, mode):
 
     playerNum = 1
     playerList = {}   
-
-    # Just in case the playersList file is missing
-    if not os.path.isfile(usersFile):
-        with open(usersFile, 'w') as f:
-            f.write(f"{currentPlayer}")
 
     # Retrieve the players list from csv
     with open(usersFile, 'r') as usersList:
@@ -966,17 +966,40 @@ def updateNameListFile(currentPlayer, userFile, usersFile):
         None
     """
 
+    playerList = []
+
+    with open(usersFile, 'r') as usersList:
+        for user in usersList:
+            user = user.strip()
+            playerList.append(user)
+
     clearScreen()
-    print("HERE COMES A NEW CHALLENGER!")
-    challenger = input("\nPlease Enter Your Name: ")
 
-    if challenger != currentPlayer:
+    if len(playerList) > 15:
+        print("\nMaximum 15 users only. Please delete a player first")
+        key = input("\nPress a Enter to continue")       
 
-        with open(userFile, 'w') as f:
-            f.write(challenger)
+    else:
+        print("HERE COMES A NEW CHALLENGER!")
 
-        with open(usersFile, 'a') as f:
-            f.write(f"\n{challenger}")
+        while True:
+            challenger = input("\nPlease Enter Your Name: ")
+
+            if len(challenger) not in range(3, 15):
+                print("\nMinimum of 3 characters and Maximum of 15 characters only")
+            else:
+                break
+
+        if challenger not in playerList:
+            with open(userFile, 'w') as f:
+                f.write(challenger)
+
+            with open(usersFile, 'a') as f:
+                f.write(f"\n{challenger}")
+            
+        else:
+            print("\nName already exists!")
+            key = input("\nPress a Enter to continue")
 
     setUserName()
 
