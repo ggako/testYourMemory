@@ -1029,7 +1029,13 @@ def getCurrentName():
     Returns:
         currentUserName (str): Current username of the player     
     """
-    pass
+    
+    currentNameFile = "name/currentname.txt"
+
+    with open(currentNameFile, "r") as currentNameText:
+        currentUserName = currentNameText.readline().strip()
+    
+    return currentUserName
 
 
 def getCurrentNameList():
@@ -1042,7 +1048,15 @@ def getCurrentNameList():
     Returns:
         currentNameList (list): List containing all names of created users    
     """
-    pass
+    
+    currentListFile = "name/currentnamelist.csv"
+
+    with open(currentListFile, "r") as currentListCSV:
+        currentNameList = []
+        for name in currentListCSV:
+            currentNameList.append(name.strip())
+
+    return currentNameList
 
 
 def encryptBoard(assignmentBoard):
