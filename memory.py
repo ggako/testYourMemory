@@ -288,7 +288,8 @@ def getAvailableCoordinates(stateBoard, currentSelection, icMapDict):
         stateBoard (list): multidimensional list of size n x n containing the state
         icMapDict (dict): dictionary of index to coordinate mapping
     Returns:
-        availableCoordinatesFinal (list): list of available coordinates    
+        availableCoordinatesFinal (list): list of available coordinates  
+        availableCoordinatesInitial (list): all coordinates found in the board whether available or not
     """
     # FILTERING approach (start from all coordinates in the board, then removing solved coordinates and selected coordinates)
 
@@ -323,7 +324,7 @@ def getAvailableCoordinates(stateBoard, currentSelection, icMapDict):
             availableCoordinatesFinal.append(coordinate)
 
     # Return the final available coordinate
-    return availableCoordinatesFinal
+    return availableCoordinatesFinal, availableCoordinatesInitial
 
 
 def selectCard(stateBoard, currentSelection, icMapDict):
@@ -340,17 +341,23 @@ def selectCard(stateBoard, currentSelection, icMapDict):
         False: if an invalid card is selected
     """
 
-    # Get list of available coordinates
-    availableCards = getAvailableCoordinates(stateBoard, currentSelection, icMapDict)
+    # Get list of available coordinates and board cards (all coordinates found in the board whether available or not)
+    availableCards, boardCards = getAvailableCoordinates(stateBoard, currentSelection, icMapDict)
 
     # Ask user for a card they want to select
     try:
-        cardSelected = int(input("Select card to flip: "))
+        cardSelected = int(input(Fore.MAGENTA + "Select card to flip: " + Style.RESET_ALL))
 
         # TODO: Feature not implemented: Option to exit while selecting card
 
         # Check if card selected is in list of available cards
-        if cardSelected not in availableCards:
+        if cardSelected not in boardCards:
+            print(Fore.RED + "Card selected is invalid :(" + Style.RESET_ALL)
+            time.sleep(1)
+            return False            
+        elif cardSelected not in availableCards:
+            print(Fore.RED + "Selected card already flipped :)" + Style.RESET_ALL)
+            time.sleep(1)
             return False
         else:
             return cardSelected
