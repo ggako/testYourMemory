@@ -769,7 +769,6 @@ def recordGameLog(currentName, score, n):
             # Save to csv
             df.to_csv(filepath, index=False)
 
-
 def loadRecentUserName():
 
     currentPath = os.path.dirname(os.path.abspath(__file__))
@@ -785,8 +784,20 @@ def loadRecentUserName():
 
         # Check if file exists (NOTE: This is a redundant check)
         if not os.path.isfile(filepath1):
-            # Ask for UserName
-            userName = input("Please enter UserName: ") 
+            # Ask for Username with
+            # Input Validation for Username Length between 3 to 15 Characters
+            while True:
+                try:
+                    userName = str(input("Please enter UserName: "))
+                    if len(userName) is not range (3,15):
+                        print("Please enter a valid Username length between 3 and 15")
+                        continue
+                    else:
+                        print(f"Welcome to the game, {userName}!!!")
+                        break 
+                except ValueError:
+                    print("Invalid Username Length")
+                    continue    
             # Create csv file
             file1 = open(filepath1, "w")
             file1.write(userName)
@@ -797,10 +808,21 @@ def loadRecentUserName():
 
         # CASE 2a: File does not exist
         if not os.path.isfile(filepath1):
-
-           # Ask for UserName
-            userName = input("Please enter UserName: ") 
-            # Create csv file
+            # Ask for Username with 
+            # Input Validation for Username Length between 3 to 15 Characters
+            while True:
+                try:
+                    userName = str(input("Please enter UserName: "))
+                    if len(userName) is not range (3,15):
+                        print("Please enter a valid Username length between 3 and 15")
+                        continue
+                    else:
+                        print(f"Welcome to the game, {userName}!!!")
+                        break 
+                except ValueError:
+                    print("Invalid Username Length")
+                    continue    
+                    # Create csv file
             file1 = open(filepath1, "w")
             file1.write(userName,"\n")
             file1.close()
@@ -811,7 +833,6 @@ def loadRecentUserName():
                 file1 = open(filepath1, "r")
                 userName = file1.readline()
                 return userName
-
 
 def instructionsScreen():
     """
