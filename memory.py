@@ -787,17 +787,13 @@ def loadRecentUserName():
             # Ask for Username with
             # Input Validation for Username Length between 3 to 15 Characters
             while True:
-                try:
-                    userName = str(input("Please enter UserName: "))
-                    if len(userName) is not range (3,15):
-                        print("Please enter a valid Username length between 3 and 15")
-                        continue
-                    else:
-                        print(f"Welcome to the game, {userName}!!!")
-                        break 
-                except ValueError:
-                    print("Invalid Username Length")
-                    continue    
+                userName = str(input("Please enter UserName: "))
+                if len(userName) not in range (3,16):
+                    print("Please enter a valid Username length between 3 and 15")
+                    continue
+                else:
+                    print(f"Welcome to the game, {userName}!!!")
+                    break 
             # Create csv file
             file1 = open(filepath1, "w")
             file1.write(userName)
@@ -811,17 +807,13 @@ def loadRecentUserName():
             # Ask for Username with 
             # Input Validation for Username Length between 3 to 15 Characters
             while True:
-                try:
-                    userName = str(input("Please enter UserName: "))
-                    if len(userName) is not range (3,15):
-                        print("Please enter a valid Username length between 3 and 15")
-                        continue
-                    else:
-                        print(f"Welcome to the game, {userName}!!!")
-                        break 
-                except ValueError:
-                    print("Invalid Username Length")
-                    continue    
+                userName = str(input("Please enter UserName: "))
+                if len(userName) not in range (3,16):
+                    print("Please enter a valid Username length between 3 and 15")
+                    continue
+                else:
+                    print(f"Welcome to the game, {userName}!!!")
+                    break   
                     # Create csv file
             file1 = open(filepath1, "w")
             file1.write(userName,"\n")
