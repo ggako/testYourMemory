@@ -1,21 +1,9 @@
-
-import time
-import sys
-import random
-from colorama import Fore, Style, init
-
-# Initialize colorama
-init(autoreset=True)
-
-# List of colors for random flashes
-COLORS = [Fore.RED, Fore.GREEN, Fore.BLUE, Fore.YELLOW, Fore.CYAN, Fore.MAGENTA, Fore.WHITE]
-
 def flash_text(text, delay=0.1, flash_count=5):
     """
     Print text with a randomized flashing effect.
-    :param text: Text to display.
-    :param delay: Delay between flashes (seconds).
-    :param flash_count: Number of flashes.
+    text: Text to display.
+    delay: Delay between flashes (seconds).
+    flash_count: Number of flashes.
     """
     for _ in range(flash_count):
         color = random.choice(COLORS)
@@ -31,9 +19,9 @@ def flash_text(text, delay=0.1, flash_count=5):
 def text_effect(text, color=Fore.WHITE, delay=0.05):
     """
     Simulates typing effect for a given text.
-    :param text: Text to display.
-    :param color: Color of the text.
-    :param delay: Delay between each character (seconds).
+    text: Text to display.
+    color: Color of the text.
+    delay: Delay between each character (seconds).
     """
     for char in text:
         sys.stdout.write(f"{color}{Style.BRIGHT}{char}")
@@ -74,5 +62,15 @@ def game_mechanics():
     # Goodluck Message!
     flash_text("Good luck and let the fun begin!", delay=0.4, flash_count=12)
 
-# sample run of game mechanics
-game_mechanics()
+
+def instructionsScreen():
+    """
+    Displays the instructions screen / mechanics of the game
+
+    Parameters:
+        None
+    Returns:
+        0 (int): Signal to return back to main menu    
+    """
+    COLORS = [Fore.RED, Fore.GREEN, Fore.BLUE, Fore.YELLOW, Fore.CYAN, Fore.MAGENTA, Fore.WHITE]
+    game_mechanics()
