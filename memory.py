@@ -276,16 +276,20 @@ def leaderboards(gameLogFile):
     return 1
 
   
-def isAddedToLeaderboard(name, score, n, gameLogFile):
+def isAddedToLeaderboard(score, n, gameLogFile):
     """
     Checks if the user's latest record is added to the leaderboard
 
     Parameters:
-        leaderboard (dict): gameLogFile (str): Path of gamelog file   
+        score (int): Final score of player
+        n (int): Game mode chosen (e.g. 4 corresponds to 4x4 game mode)
+        gameLogFile (str): Path of gamelog file   
 
     Returns:
         True, if user's latest record is added to leaderboard. Otherwise, False.
     """
+
+    # Get leaderboard dictionary
     leaderboard = readLeaderboard(gameLogFile)
     if n not in leaderboard:
         return False
