@@ -1573,8 +1573,9 @@ def playGame(type=1):
 
             # Print indicator of whether the player has found a match
             if matchFound == True:
-                # TODO: Match found message
-                pass 
+                print(Fore.GREEN + "Match :)" + Style.RESET_ALL)
+                time.sleep(1)
+                clearScreen()
             else:
                 pass
 
@@ -1654,8 +1655,9 @@ def playGame(type=1):
 
             # Print indicator of whether the player has found a match
             if matchFound == True:
-                # TODO: Match found message
-                pass 
+                print(Fore.GREEN + "Match :)!" + Style.RESET_ALL)
+                time.sleep(1)
+                clearScreen()
             else:
                 pass
 
@@ -1725,8 +1727,9 @@ def playGame(type=1):
 
             # Print indicator of whether the player has found a match
             if matchFound == True:
-                # TODO: Match found message
-                pass 
+                print(Fore.GREEN + "Match :)!" + Style.RESET_ALL)
+                time.sleep(1)
+                clearScreen()
             else:
                 pass
 
