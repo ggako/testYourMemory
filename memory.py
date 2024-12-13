@@ -815,6 +815,14 @@ def recordGameLog(currentName, score, n):
 
 
 def loadRecentUserName():
+    """
+    Retrieves last set user name. If no user name was set, ask user to input their name.
+
+    Parameters:
+        None
+    Returns:
+        userName (str): Current username of the player
+    """
 
     currentPath = os.path.dirname(os.path.abspath(__file__))
     # Specify name log folder path
