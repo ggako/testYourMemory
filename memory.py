@@ -937,7 +937,28 @@ def updateGameLog(currentNameList):
     Returns:
         None (only updates the game log file)   
     """
-    pd.read_csv("name\currentname.csv")
+
+    # Store gamelog.csv as a Pandas DataFrame
+    game_log = pd.read_csv(r"gamelog\gamelog.csv")
+
+    # Convert the "Name" column (a pd.Series object) to a set 
+    unique_names_in_log = set(game_log["Name"])
+
+    # Convert "currentNameList" to another set
+    unique_names_in_list = set(currentNameList)
+
+    # Check for discrepancies using the minus operator for sets
+    name_discrepancy = list(unique_names_in_log - unique_names_in_list)
+
+    for name in name_discrepancy:
+        # Drop rows where the "Name" column matches names in name_discrepancy
+        game_log = game_log.drop(game_log.loc[game_log["Name"] == name, :].index)
+
+    # Reset index so the DataFrame doesn't have index gaps after row removal
+    game_log.reset_index(drop=True, inplace=True)
+
+    # Save the updated DataFrame back to gamelog.csv
+    game_log.to_csv(r"gamelog\gamelog.csv", index=False)
 
 
 def setUserName():
