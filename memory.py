@@ -254,9 +254,25 @@ def leaderboards(gameLogFile):
     Returns:
         1 (int): Indicates the return to main menu     
     """
+    clearScreen()
+
+    # Get current path
+    currentPath = os.path.dirname(os.path.abspath(__file__))
+
+    # Specify game log file path
+    filepath = os.path.join(currentPath, 'gamelog/gamelog.csv')    
+
+   # File does not exist, return to leaderboards
+    if not os.path.isfile(filepath):
+        text_effect("The leaderboards screen is currently locked. Play a game to unlock the leaderboards.")
+        text_effect("Returning to main menu.")
+        time.sleep(3)
+        return None
+
     leaderboard = readLeaderboard(gameLogFile)
     displayLeaderboard(leaderboard)
-    time.sleep(10)
+    text_effect_input("Press any key to return to main menu", Fore.BLUE)
+    print(Style.RESET_ALL)
     return 1
 
   
@@ -1340,7 +1356,7 @@ def achievement():
     if not os.path.exists(folderpath):
         if not os.path.isfile(filepath):
             text_effect("The achievement screen is currently locked. Play a game to unlock your first memory stone.")
-            text_effect("Returning to main menu.")
+            text_effect("Returning to main menu...")
             time.sleep(3)
             return None
     
@@ -1617,7 +1633,7 @@ def playGame(type=1):
         # CASE: Folder does not exist
         if not os.path.exists(folderpath):
             text_effect("There are currently no saved game availables.")
-            text_effect("Returning to main menu.")
+            text_effect("Returning to main menu...")
             time.sleep(3)
             return 0
 
