@@ -1079,7 +1079,7 @@ def setUserName():
         updateGameLog(getCurrentNameList())
     else:
         # Go back to main menu
-        main()
+        return 0
         
     return
 
