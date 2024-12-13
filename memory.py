@@ -1161,9 +1161,9 @@ def updateNameFile(currentPlayer, userFile, usersFile, mode):
                     with open("savefiles/userName.pkl", "rb") as file:
                         savedPlayerName = pickle.load(file)  # Load the userName
 
-                # Delete saved board if deleted player is the same as saved name
-                if deletedPlayer == savedPlayerName:
-                    deleteBoard()
+                        # Delete saved board if deleted player is the same as saved name
+                        if deletedPlayer == savedPlayerName:
+                            deleteBoard()
         
         setUserName()
 
