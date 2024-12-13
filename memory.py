@@ -776,6 +776,7 @@ def recordGameLog(currentName, score, n):
             # Save to csv
             df.to_csv(filepath, index=False)
 
+
 def loadRecentUserName():
 
     currentPath = os.path.dirname(os.path.abspath(__file__))
@@ -832,6 +833,8 @@ def loadRecentUserName():
                 file1 = open(filepath1, "r")
                 userName = file1.readline()
                 return userName
+            
+
 def flash_text(text, delay=0.1, flash_count=5):
     """
     Print text with a randomized flashing effect.
@@ -850,6 +853,7 @@ def flash_text(text, delay=0.1, flash_count=5):
    
     print(f"{Fore.MAGENTA}{Style.BRIGHT}{text}")     # Display the text permanently
 
+
 def text_effect(text, color=Fore.WHITE, delay=0.05):
     """
     Simulates typing effect for a given text.
@@ -862,6 +866,7 @@ def text_effect(text, color=Fore.WHITE, delay=0.05):
         sys.stdout.flush()
         time.sleep(delay)
     print()  # Move to the next line
+
 
 def game_mechanics():
     """Display game instructions."""
@@ -971,6 +976,7 @@ def setUserName():
         main()
         
     return
+
 
 def updateNameFile(currentPlayer, userFile, usersFile, mode):
     """
