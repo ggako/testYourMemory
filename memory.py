@@ -14,7 +14,9 @@ import time
 # Third Party Libraries
 from art import text2art
 from colorama import Fore, Style, init
+from cryptography.fernet import Fernet
 import pandas as pd
+import pickle
 from pyfiglet import Figlet
 from tabulate import tabulate 
 
@@ -1150,7 +1152,14 @@ def encryptBoard(assignmentBoard):
         encryptedBoard (list): version of assignment board where every element is encrypted
         key: key object generated during encryption / to be used for decryption  
     """
-    pass
+    key = Fernet.generate_key()
+    fernet = Fernet(key)
+
+    encryptedBoard = []
+    for row in assignmentBoard:
+        encryptRow = [fernet.encrypt(cell.encode()) for cell in row]
+        encryptedBoard.append(encryptRow)
+    return encryptedBoard, key
 
 
 def decryptBoard(encryptedBoard, key):
@@ -1163,7 +1172,13 @@ def decryptBoard(encryptedBoard, key):
     Returns:
         assignmentBoard (list): multidimensional list of size n x n containing the assignments
     """
-    pass
+    fernet = Fernet(key)
+
+    decryptedBoard = []
+    for row in encryptedBoard:
+        decryptedRow = [fernet.decrypt(cell).decode() for cell in row]
+        decryptedBoard.append(decryptedRow)
+    return assignmentBoard
 
 
 def saveBoard(assignmentBoard, stateBoard, currentSelection, totalMoves):
@@ -1178,7 +1193,20 @@ def saveBoard(assignmentBoard, stateBoard, currentSelection, totalMoves):
     Returns:
         None
     """
-    pass
+    # Part 0: Getting file paths
+
+    # Create savefiles directory if it doesn't exist
+    os.makedirs("savefiles", exist_ok=True)
+
+    # Save data to files using pickle
+    with open("savefiles/assignmentBoard.pkl", "wb") as file:
+        pickle.dump(assignmentBoard, file)  # Save the assignment board
+    with open("savefiles/stateBoard.pkl", "wb") as file:
+        pickle.dump(stateBoard, file)  # Save the state board
+    with open("savefiles/currentSelection.pkl", "wb") as file:
+        pickle.dump(currentSelection, file)  # Save the current selection
+    with open("savefiles/totalMoves.pkl", "wb") as file:
+        pickle.dump(totalMoves, file)  # Save the total moves
 
 
 def loadBoard():
@@ -1194,7 +1222,20 @@ def loadBoard():
         currentSelection (list): list containing the 2 currently selected cards of the player
         totalMoves (int): total moves by the user
     """
-    pass
+    # Part 0: Getting file paths
+
+    # Open and load data from files using pickle
+    with open("savefiles/assignmentBoard.pkl", "rb") as file:
+        assignmentBoard = pickle.load(file)  # Load the assignment board
+    with open("savefiles/stateBoard.pkl", "rb") as file:
+        stateBoard = pickle.load(file)  # Load the state board
+    with open("savefiles/currentSelection.pkl", "rb") as file:
+        currentSelection = pickle.load(file)  # Load the current selection
+    with open("savefiles/totalMoves.pkl", "rb") as file:
+        totalMoves = pickle.load(file)  # Load the total moves
+
+    # Return the loaded data
+    return assignmentBoard, stateBoard, currentSelection, totalMoves
 
 
 def achievement():
