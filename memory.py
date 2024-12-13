@@ -1139,11 +1139,31 @@ def updateNameFile(currentPlayer, userFile, usersFile, mode):
                 with open(userFile, 'w') as f:
                     f.write(playerList[option])
             else:
+
+                deletedPlayer = playerList[option]
+
                 del playerList[option]
                 with open(usersFile, 'w') as f:
                     for v in playerList.values():
                         f.write(f"{v}\n")
                     f.write(currentPlayer)
+
+                # SECTION: Delete saved files if deleted player is the player in the saved files
+
+                # Get current path
+                currentPath = os.path.dirname(os.path.abspath(__file__))
+
+                # Specify game log file path
+                filepath = os.path.join(currentPath, 'savefiles/username.pkl')
+
+                # Check if savefiles/userName exists:
+                if os.path.isfile(filepath):
+                    with open("savefiles/userName.pkl", "rb") as file:
+                        savedPlayerName = pickle.load(file)  # Load the userName
+
+                # Delete saved board if deleted player is the same as saved name
+                if deletedPlayer == savedPlayerName:
+                    deleteBoard()
         
         setUserName()
 
@@ -1363,7 +1383,7 @@ def deleteBoard():
     """
     toBeDeletedPath = ["savefiles/assignmentBoard.pkl", "savefiles/stateBoard.pkl",
                        "savefiles/currentSelection.pkl", "savefiles/totalMoves.pkl",
-                       "userName.pkl"]
+                       "userName.pkl", "key.pkl"]
     
     for path in toBeDeletedPath:
         if os.path.exists(path):
