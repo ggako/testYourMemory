@@ -1362,7 +1362,8 @@ def deleteBoard():
         None
     """
     toBeDeletedPath = ["savefiles/assignmentBoard.pkl", "savefiles/stateBoard.pkl",
-                       "savefiles/currentSelection.pkl", "savefiles/totalMoves.pkl"]
+                       "savefiles/currentSelection.pkl", "savefiles/totalMoves.pkl",
+                       "userName.pkl"]
     
     for path in toBeDeletedPath:
         if os.path.exists(path):
