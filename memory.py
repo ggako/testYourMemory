@@ -1291,6 +1291,7 @@ def saveBoard(encryptedBoard, stateBoard, currentSelection, totalMoves, key):
         stateBoard (list): multidimensional list of size n x n containing the state
         currentSelection (list): list containing the 2 currently selected cards of the player
         totalMoves (int): total moves by the user
+        key: object used to encrypt/decrypt assignment board
     Returns:
         None
     """
@@ -1310,6 +1311,8 @@ def saveBoard(encryptedBoard, stateBoard, currentSelection, totalMoves, key):
         pickle.dump(totalMoves, file)  # Save the total moves
     with open("savefiles/key.pkl", "wb") as file:
         pickle.dump(key, file)  # Save the total moves
+    with open("savefiles/userName.pkl", "wb") as file:
+        pickle.dump(getCurrentName(), file)  # Save user of the board
 
 
 def loadBoard():
@@ -1324,6 +1327,7 @@ def loadBoard():
         stateBoard (list): multidimensional list of size n x n containing the state
         currentSelection (list): list containing the 2 currently selected cards of the player
         totalMoves (int): total moves by the user
+        currentName (str): Current username of the player
     """
     # Part 0: Getting file paths
 
@@ -1338,12 +1342,14 @@ def loadBoard():
         totalMoves = pickle.load(file)  # Load the total moves
     with open("savefiles/key.pkl", "rb") as file:
         key = pickle.load(file)  # Load the key
+    with open("savefiles/userName.pkl", "rb") as file:
+        currentName = pickle.load(file)  # Load the userName
 
     # Decrypt the encrypted assignment board
     assignmentBoard = decryptBoard(encryptedBoard, key)
 
     # Return the loaded data
-    return assignmentBoard, stateBoard, currentSelection, totalMoves
+    return assignmentBoard, stateBoard, currentSelection, totalMoves, currentName 
 
 
 def deleteBoard():
@@ -1702,8 +1708,8 @@ def playGame(type=1):
             time.sleep(1)
             return 0            
 
-        # Load saved files
-        assignmentBoard, stateBoard, currentSelection, totalMoves = loadBoard()
+        # Load saved files (NOTE: currentName called from getCurrentName() will be overwritten by saved username)
+        assignmentBoard, stateBoard, currentSelection, totalMoves, currentName = loadBoard()
 
         # Get n (use assignmentBoard as reference)
         n = len(assignmentBoard)
