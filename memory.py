@@ -374,9 +374,26 @@ def selectCard(stateBoard, currentSelection, icMapDict):
         cardSelected = input(Fore.MAGENTA + "Select card to flip: " + Style.RESET_ALL)
 
         if cardSelected.lower() == 's':
+
+            # Specify saved files folder path
+            folderpath = './savefiles'
+
+            # If path does not exist, create one
+            if not os.path.exists(folderpath):
+                os.mkdir(folderpath)
+
+            # Get a list of all directories (files and folder) inside the folder path
+            dir = os.listdir(folderpath) 
+
             clearScreen()
-            answer = text_effect_input("Are you sure you want to save and close the game? Type and enter Y/y\n", delay=.02)
-            print(Style.RESET_ALL)
+
+            if len(dir) == 0:
+                answer = text_effect_input("Are you sure you want to save and close the game? Type and enter Y/y\n", delay=.02)
+                print(Style.RESET_ALL)
+            else:
+                answer = text_effect_input("There is a saved file present that could be overwritten. Are you sure you want to save and close the game? Type and enter Y/y\n", delay=.02)
+                print(Style.RESET_ALL)
+
             if answer.lower() == "y":
                 return True
             
