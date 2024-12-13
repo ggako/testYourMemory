@@ -1012,7 +1012,7 @@ def updateGameLog(currentNameList):
     """
 
     # Store gamelog.csv as a Pandas DataFrame
-    game_log = pd.read_csv(r"gamelog\gamelog.csv")
+    game_log = pd.read_csv(r"gamelog/gamelog.csv")
 
     # Convert the "Name" column (a pd.Series object) to a set 
     unique_names_in_log = set(game_log["Name"])
@@ -1031,7 +1031,7 @@ def updateGameLog(currentNameList):
     game_log.reset_index(drop=True, inplace=True)
 
     # Save the updated DataFrame back to gamelog.csv
-    game_log.to_csv(r"gamelog\gamelog.csv", index=False)
+    game_log.to_csv(r"gamelog/gamelog.csv", index=False)
 
 
 def setUserName():
