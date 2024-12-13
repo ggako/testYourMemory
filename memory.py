@@ -937,7 +937,7 @@ def updateGameLog(currentNameList):
     Returns:
         None (only updates the game log file)   
     """
-    pass
+    pd.read_csv("name\currentname.csv")
 
 
 def setUserName():
