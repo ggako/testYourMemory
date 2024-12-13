@@ -629,9 +629,10 @@ def handle_menu():
             elif selected == 6:
                 print(Fore.BLUE + "Loading player achievements..." + Style.RESET_ALL)
             elif selected == 7:
-                print(Fore.RED + "Exiting the game. Goodbye!" + Style.RESET_ALL)
-                time.sleep(1)
-                exit()
+                # print(Fore.RED + "Exiting the game. Goodbye!" + Style.RESET_ALL)
+                # time.sleep(1)
+                # exit()
+                pass
             time.sleep(1)
             return selected
         if selected == 0:  # "selected" becomes 0 when at "7. Quit" due to the modulo operation with "total_options"
@@ -728,8 +729,20 @@ def welcomeScreen(currentName):
         time.sleep(.5)
         text_effect_input("No wait I'm not ready yet! I'm not even sure I want to go there!", Fore.GREEN)
         clearScreen()
-        text_effect(f"Teleporting to MemoryLand.....", Fore.RED, delay=0.1)
-        
+        text_effect(f"Teleporting to MemoryLand.........", Fore.RED, delay=0.1)        
+        clearScreen()
+        text_effect(f"Your Destination 📍:", Fore.RED, delay=0.1) 
+        print("")
+        text_effect(f"MemoryLand 🧠", Fore.RED, delay=0.2) 
+        time.sleep(1)       
+    elif response == "X":
+        clearScreen()
+        text_effect(f"Teleporting to MemoryLand.........", Fore.RED, delay=0.1)        
+        clearScreen()
+        text_effect(f"Your Destination 📍:", Fore.RED, delay=0.1) 
+        print("")
+        text_effect(f"MemoryLand 🧠", Fore.RED, delay=0.2) 
+        time.sleep(1)      
 
     print(Style.RESET_ALL)
     clearScreen()  # Clear the screen
@@ -1966,7 +1979,9 @@ def main():
 
         # Choice 7: Quit
         elif choice == 7:
-            print("Thanks for playing!")
+            clearScreen()
+            text_effect(f"Departing MemoryLand.........", Fore.RED, delay=0.1)     
+            text_effect(f"Thanks for Remembering!", Fore.GREEN, delay=0.2)     
             sys.exit()
 
 
