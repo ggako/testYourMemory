@@ -684,6 +684,37 @@ def welcomeScreen(currentName):
     """
     Displays a welcome screen
     """
+    response = 0
+
+    while response not in ['Z', 'X']:
+        response = text_effect_input("Press Z to play the intro, press X to teleport to MemoryLand\n", Fore.GREEN).upper()
+
+    if response == "Z":
+        clearScreen()
+        text_effect("Hello....ummmm... what is your name again?", Fore.CYAN, delay=0.05)
+        time.sleep(.5)
+        text_effect_input("You forgot my name? I told you awhile back", Fore.GREEN)
+        clearScreen()
+        text_effect(f"That's right.. you are {currentName}. Pardon my memory.", Fore.CYAN, delay=0.05)
+        time.sleep(.5)
+        text_effect_input("No problem :)", Fore.GREEN)
+        clearScreen()
+        text_effect("For you to not end up like me who forget everything, I'll teleport you to MemoryLand.", Fore.CYAN, delay=0.05)
+        time.sleep(.5)
+        text_effect_input("What is that place?", Fore.GREEN)
+        clearScreen()
+        text_effect("It's a place where you can play a game Test Your Memory", Fore.CYAN, delay=0.05)
+        time.sleep(.5)
+        text_effect_input("That's cool! Can you give more details?", Fore.GREEN)
+        clearScreen()
+        text_effect(f"Sorry. I won't hold you off much longer. Good bye {currentName}!", Fore.CYAN, delay=0.05)
+        time.sleep(.5)
+        text_effect_input("No wait I'm not ready yet! I'm not even sure I want to go there!", Fore.GREEN)
+        clearScreen()
+        text_effect(f"Teleporting to MemoryLand.....", Fore.RED, delay=0.1)
+        
+
+    print(Style.RESET_ALL)
     clearScreen()  # Clear the screen
     print("****************************")
     print("*   Test Your Memory Game  *")
