@@ -564,9 +564,10 @@ def handle_menu():
             elif selected == 3:
                 print(Fore.BLUE + "Fetching user list..." + Style.RESET_ALL)
             elif selected == 4:
-                print(Fore.BLUE + "Instructions: Match all pairs in the board to win!" + Style.RESET_ALL)
-                input("Press Enter to return to the menu...")
-                continue
+                # print(Fore.BLUE + "Instructions: Match all pairs in the board to win!" + Style.RESET_ALL)
+                # input("Press Enter to return to the menu...")
+                # continue
+                pass
             elif selected == 5:
                 print(Fore.BLUE + "Loading leaderboards..." + Style.RESET_ALL)            
             elif selected == 6:
@@ -842,6 +843,8 @@ def flash_text(text, delay=0.1, flash_count=5):
     delay: Delay between flashes (seconds).
     flash_count: Number of flashes.
     """
+    COLORS = [Fore.RED, Fore.GREEN, Fore.BLUE, Fore.YELLOW, Fore.CYAN, Fore.MAGENTA, Fore.WHITE]
+
     for _ in range(flash_count):
         color = random.choice(COLORS)
         sys.stdout.write(f"\r{color}{Style.BRIGHT}{text}")  # Flash the text in a random color
@@ -911,7 +914,7 @@ def instructionsScreen():
     Returns:
         0 (int): Signal to return back to main menu    
     """
-    COLORS = [Fore.RED, Fore.GREEN, Fore.BLUE, Fore.YELLOW, Fore.CYAN, Fore.MAGENTA, Fore.WHITE]
+    clearScreen()
     game_mechanics()
 
 
@@ -1312,11 +1315,11 @@ def main():
         choice = -1 # Arbitrary choice to enter while loop
 
         # Stay at the main menu if user selects an unimplemented function
-        while choice not in [1, 3, 5, 7]:
+        while choice not in [1, 3, 4, 5, 7]:
             choice = mainMenu()
-            if choice not in [1, 3, 5, 7]:
+            if choice not in [1, 3, 4, 5, 7]:
                 clearScreen()
-                print("Menu items 2,4,6 is not yet implemented")
+                print("Menu items 2,6 is not yet implemented")
                 time.sleep(2) # 2 seconds delay
                 clearScreen()
 
@@ -1336,13 +1339,11 @@ def main():
         
         # Choice 4: Instructions
         elif choice == 4:
-            raise Exception("Function not yet implemented")
-            # instructionsScreen()
+            instructionsScreen()
 
         # Choice 5: Leaderboards
         elif choice == 5:
             leaderboards("gamelog/gamelog.csv")
-            # raise Exception("Function not yet implemented")
         
         # Choice 6: Achievements
         elif choice == 6:
