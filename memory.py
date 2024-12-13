@@ -371,7 +371,7 @@ def selectCard(stateBoard, currentSelection, icMapDict):
 
         if cardSelected.lower() == 's':
             clearScreen()
-            answer = text_effect_input("Are you sure you want to save and close the game? Type and enter Y/y\n")
+            answer = text_effect_input("Are you sure you want to save and close the game? Type and enter Y/y\n", delay=.02)
             print(Style.RESET_ALL)
             if answer.lower() == "y":
                 return True
@@ -381,12 +381,14 @@ def selectCard(stateBoard, currentSelection, icMapDict):
 
         # Check if card selected is in list of available cards
         if cardSelected not in boardCards:
+            clearScreen()
             print(Fore.RED + "Card selected is invalid :(" + Style.RESET_ALL)
-            time.sleep(1)
+            time.sleep(.5)
             return False            
         elif cardSelected not in availableCards:
+            clearScreen()
             print(Fore.RED + "Selected card already flipped :)" + Style.RESET_ALL)
-            time.sleep(1)
+            time.sleep(.5)
             return False
         else:
             return cardSelected
@@ -1244,12 +1246,12 @@ def decryptBoard(encryptedBoard, key):
     return decryptedBoard
 
 
-def saveBoard(assignmentBoard, stateBoard, currentSelection, totalMoves):
+def saveBoard(encryptedBoard, stateBoard, currentSelection, totalMoves, key):
     """
     Exports the assignment board, state board, current selection and total moves to a file that could be loaded for later use
     
     Parameters:
-        assignmentBoard (list): multidimensional list of size n x n containing the assignments
+        encryptedBoard (list): multidimensional list of size n x n containing the assignments (encrypted)
         stateBoard (list): multidimensional list of size n x n containing the state
         currentSelection (list): list containing the 2 currently selected cards of the player
         totalMoves (int): total moves by the user
@@ -1263,13 +1265,15 @@ def saveBoard(assignmentBoard, stateBoard, currentSelection, totalMoves):
 
     # Save data to files using pickle
     with open("savefiles/assignmentBoard.pkl", "wb") as file:
-        pickle.dump(assignmentBoard, file)  # Save the assignment board
+        pickle.dump(encryptedBoard, file)  # Save the assignment board
     with open("savefiles/stateBoard.pkl", "wb") as file:
         pickle.dump(stateBoard, file)  # Save the state board
     with open("savefiles/currentSelection.pkl", "wb") as file:
         pickle.dump(currentSelection, file)  # Save the current selection
     with open("savefiles/totalMoves.pkl", "wb") as file:
         pickle.dump(totalMoves, file)  # Save the total moves
+    with open("savefiles/key.pkl", "wb") as file:
+        pickle.dump(key, file)  # Save the total moves
 
 
 def loadBoard():
@@ -1289,13 +1293,18 @@ def loadBoard():
 
     # Open and load data from files using pickle
     with open("savefiles/assignmentBoard.pkl", "rb") as file:
-        assignmentBoard = pickle.load(file)  # Load the assignment board
+        encryptedBoard = pickle.load(file)  # Load the assignment board
     with open("savefiles/stateBoard.pkl", "rb") as file:
         stateBoard = pickle.load(file)  # Load the state board
     with open("savefiles/currentSelection.pkl", "rb") as file:
         currentSelection = pickle.load(file)  # Load the current selection
     with open("savefiles/totalMoves.pkl", "rb") as file:
         totalMoves = pickle.load(file)  # Load the total moves
+    with open("savefiles/key.pkl", "rb") as file:
+        key = pickle.load(file)  # Load the key
+
+    # Decrypt the encrypted assignment board
+    assignmentBoard = decryptBoard(encryptedBoard, key)
 
     # Return the loaded data
     return assignmentBoard, stateBoard, currentSelection, totalMoves
@@ -1573,7 +1582,8 @@ def playGame(type=1):
 
             # Case: Save and exit game
             if selectedCard is True:
-                saveBoard(assignmentBoard, stateBoard, currentSelection, totalMoves)
+                encryptedBoard, key = encryptBoard(assignmentBoard)
+                saveBoard(encryptedBoard, stateBoard, currentSelection, totalMoves, key)
                 sys.exit()
 
             # Add card to current selection
@@ -1596,7 +1606,8 @@ def playGame(type=1):
 
             # Case: Save and exit game
             if selectedCard is True:
-                saveBoard(assignmentBoard, stateBoard, currentSelection, totalMoves)
+                encryptedBoard, key = encryptBoard(assignmentBoard)
+                saveBoard(encryptedBoard, stateBoard, currentSelection, totalMoves, key)
                 sys.exit()
 
             # Add card to current selection
@@ -1678,7 +1689,8 @@ def playGame(type=1):
 
             # Case: Save and exit game
             if selectedCard is True:
-                saveBoard(assignmentBoard, stateBoard, currentSelection, totalMoves)
+                encryptedBoard, key = encryptBoard(assignmentBoard)
+                saveBoard(encryptedBoard, stateBoard, currentSelection, totalMoves, key)
                 sys.exit()
 
             # Add card to current selection
@@ -1728,7 +1740,8 @@ def playGame(type=1):
 
             # Case: Save and exit game
             if selectedCard is True:
-                saveBoard(assignmentBoard, stateBoard, currentSelection, totalMoves)
+                encryptedBoard, key = encryptBoard(assignmentBoard)
+                saveBoard(encryptedBoard, stateBoard, currentSelection, totalMoves, key)
                 sys.exit()
 
             # Add card to current selection
@@ -1751,7 +1764,8 @@ def playGame(type=1):
 
             # Case: Save and exit game
             if selectedCard is True:
-                saveBoard(assignmentBoard, stateBoard, currentSelection, totalMoves)
+                encryptedBoard, key = encryptBoard(assignmentBoard)
+                saveBoard(encryptedBoard, stateBoard, currentSelection, totalMoves, key)
                 sys.exit()
 
             # Add card to current selection
