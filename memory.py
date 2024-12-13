@@ -977,7 +977,7 @@ def setUserName():
         updateNameListFile(currentPlayer, userFile, usersFile)
     elif option == 3:
         updateNameFile(currentPlayer, userFile, usersFile, "delete")
-        #updateGameLog(currentNameList)
+        updateGameLog(getCurrentNameList())
     else:
         # Go back to main menu
         main()
