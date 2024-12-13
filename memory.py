@@ -1481,17 +1481,18 @@ def achievement():
         return 0
 
 
-def playGame(currentName, n, type=1):
+def playGame(n, type=1):
     """
     Executes the logic of the game
     
     Parameters:
-        name (str): Current username of the player
         n (int): Game board size
         type (int): 1, for new game; 2, for continuing a saved game  
     Returns:
         0 (int): Signal to return back to main menu after game is over
     """
+
+    currentName = getCurrentName()
 
     if type == 1:
         
@@ -1599,7 +1600,7 @@ def main():
         if choice == 1:
             n = select_difficulty()
             clearScreen()
-            playGame(currentName, n, type=1)
+            playGame(n, type=1)
 
         # Choice 2: Load a Saved Game
         elif choice == 2:
