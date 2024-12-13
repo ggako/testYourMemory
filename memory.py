@@ -342,6 +342,7 @@ def selectCard(stateBoard, currentSelection, icMapDict):
 
     Returns:
         cardSelected (int): card coordinate selected
+        True: if user wants to save and exit the game
         False: if an invalid card is selected
     """
 
@@ -350,9 +351,18 @@ def selectCard(stateBoard, currentSelection, icMapDict):
 
     # Ask user for a card they want to select
     try:
-        cardSelected = int(input(Fore.MAGENTA + "Select card to flip: " + Style.RESET_ALL))
+        cardSelected = input(Fore.MAGENTA + "Select card to flip: " + Style.RESET_ALL)
 
-        # TODO: Feature not implemented: Option to exit while selecting card
+        # TODO: Feature not implemented: Option to save while selecting card
+        if cardSelected.lower() == 's':
+            clearScreen()
+            answer = text_effect_input("Are you sure you want to save and close the game? Type and enter Y/y\n")
+            print(Style.RESET_ALL)
+            if answer.lower() == "y":
+                return True
+            
+        # Convert card selected to integer
+        cardSelected = int(cardSelected)
 
         # Check if card selected is in list of available cards
         if cardSelected not in boardCards:
@@ -1481,7 +1491,7 @@ def achievement():
         return 0
 
 
-def playGame(n, type=1):
+def playGame(type=1):
     """
     Executes the logic of the game
     
@@ -1492,17 +1502,22 @@ def playGame(n, type=1):
         0 (int): Signal to return back to main menu after game is over
     """
 
+     # Initialize name and mapping
     currentName = getCurrentName()
 
     if type == 1:
-        
+
+        n = select_difficulty()
+        clearScreen()
+
         # Initialize boards and game variables
+        ciMapDict = coordinateToIndexMap(n)
+        icMapDict = indexToCoordinateMap(n)
         assignmentBoard = initialAssignment(n)
         stateBoard = initialState(n)
         totalMoves = 0 
         currentSelection = []
-        ciMapDict = coordinateToIndexMap(n)
-        icMapDict = indexToCoordinateMap(n)
+
         gameRunning = True
 
         # Simulate a complete round (complete round - flipping 2 cards)
@@ -1515,6 +1530,11 @@ def playGame(n, type=1):
                 displayBoard(assignmentBoard, stateBoard, currentSelection, ciMapDict)
                 selectedCard = selectCard(stateBoard, currentSelection, icMapDict)
                 clearScreen()
+
+            # Case: Save and exit game
+            if selectedCard is True:
+                saveBoard(assignmentBoard, stateBoard, currentSelection, totalMoves)
+                sys.exit()
 
             # Add card to current selection
             currentSelection.append(selectedCard)
@@ -1533,6 +1553,11 @@ def playGame(n, type=1):
                 displayBoard(assignmentBoard, stateBoard, currentSelection, ciMapDict)
                 selectedCard = selectCard(stateBoard, currentSelection, icMapDict)
                 clearScreen()            
+
+            # Case: Save and exit game
+            if selectedCard is True:
+                saveBoard(assignmentBoard, stateBoard, currentSelection, totalMoves)
+                sys.exit()
 
             # Add card to current selection
             currentSelection.append(selectedCard)
@@ -1566,7 +1591,156 @@ def playGame(n, type=1):
 
     # For save game implementation
     elif type == 2:
-        pass
+
+        # STEP 0: Check existence of saved files
+
+        # Specify saved files folder path
+        folderpath = './savefiles'
+
+        # CASE: Folder does not exist
+        if not os.path.exists(folderpath):
+            text_effect("There are currently no saved game availables.")
+            text_effect("Returning to main menu.")
+            time.sleep(3)
+            return 0
+
+        # Get a list of all directories (files and folder) inside the folder path
+        dir = os.listdir(folderpath)  
+
+        # CASE: Savefiles folder exists but is empty
+        if len(dir) == 0:
+            text_effect("There are currently no saved game available.")
+            text_effect("Returning to main menu.")
+            time.sleep(1)
+            return 0            
+
+        # Load saved files
+        assignmentBoard, stateBoard, currentSelection, totalMoves = loadBoard()
+
+        # Get n (use assignmentBoard as reference)
+        n = len(assignmentBoard)
+
+        # Get mapping dictionaries
+        ciMapDict = coordinateToIndexMap(n)
+        icMapDict = indexToCoordinateMap(n)
+
+        # Special case: One card has already been selected
+        if len(currentSelection) == 1:
+
+            selectedCard = False # Initialize selected card (for while loop entry)
+
+            # Selecting second card of the round
+            while selectedCard == False:
+                displayBoard(assignmentBoard, stateBoard, currentSelection, ciMapDict)
+                selectedCard = selectCard(stateBoard, currentSelection, icMapDict)
+                clearScreen()            
+
+            # Case: Save and exit game
+            if selectedCard is True:
+                saveBoard(assignmentBoard, stateBoard, currentSelection, totalMoves)
+                sys.exit()
+
+            # Add card to current selection
+            currentSelection.append(selectedCard)
+
+            displayBoard(assignmentBoard, stateBoard, currentSelection, ciMapDict)
+            time.sleep(2) # 2 seconds delay
+            clearScreen()
+
+            # Update total moves
+            totalMoves += 1            
+
+            # Check if current selection matches or not and update if necessary
+            stateBoard, matchFound = checkMatchUpdateBoard(assignmentBoard, stateBoard, currentSelection, ciMapDict)
+
+            # Print indicator of whether the player has found a match
+            if matchFound == True:
+                # TODO: Match found message
+                pass 
+            else:
+                pass
+
+            # Clear current selection of cards
+            currentSelection.pop()
+            currentSelection.pop()
+
+            # Check if game is over
+            if gameOver(stateBoard) == True:
+                recordGameLog(currentName, int(totalMovesToScore(totalMoves, n)), n)
+                congratsScreen(currentName, int(totalMovesToScore(totalMoves, n)))
+                return 0 # Returns user back to main menu
+
+        gameRunning = True
+
+        # Simulate a complete round (complete round - flipping 2 cards)
+        while gameRunning:
+
+            selectedCard = False # Initialize selected card (for while loop entry)
+
+            # Selecting first card of the round
+            while selectedCard == False:
+                displayBoard(assignmentBoard, stateBoard, currentSelection, ciMapDict)
+                selectedCard = selectCard(stateBoard, currentSelection, icMapDict)
+                clearScreen()
+
+            # Case: Save and exit game
+            if selectedCard is True:
+                saveBoard(assignmentBoard, stateBoard, currentSelection, totalMoves)
+                sys.exit()
+
+            # Add card to current selection
+            currentSelection.append(selectedCard)
+
+            displayBoard(assignmentBoard, stateBoard, currentSelection, ciMapDict)
+            time.sleep(1) # 2 seconds delay
+            clearScreen()
+
+            # Update total moves
+            totalMoves += 1            
+
+            selectedCard = False # Initialize selected card (for while loop entry)
+
+            # Selecting second card of the round
+            while selectedCard == False:
+                displayBoard(assignmentBoard, stateBoard, currentSelection, ciMapDict)
+                selectedCard = selectCard(stateBoard, currentSelection, icMapDict)
+                clearScreen()            
+
+            # Case: Save and exit game
+            if selectedCard is True:
+                saveBoard(assignmentBoard, stateBoard, currentSelection, totalMoves)
+                sys.exit()
+
+            # Add card to current selection
+            currentSelection.append(selectedCard)
+
+            displayBoard(assignmentBoard, stateBoard, currentSelection, ciMapDict)
+            time.sleep(2) # 2 seconds delay
+            clearScreen()
+
+            # Update total moves
+            totalMoves += 1            
+
+            # Check if current selection matches or not and update if necessary
+            stateBoard, matchFound = checkMatchUpdateBoard(assignmentBoard, stateBoard, currentSelection, ciMapDict)
+
+            # Print indicator of whether the player has found a match
+            if matchFound == True:
+                # TODO: Match found message
+                pass 
+            else:
+                pass
+
+            # Clear current selection of cards
+            currentSelection.pop()
+            currentSelection.pop()
+
+            # Check if game is over
+            if gameOver(stateBoard) == True:
+                recordGameLog(currentName, int(totalMovesToScore(totalMoves, n)), n)
+                congratsScreen(currentName, int(totalMovesToScore(totalMoves, n)))
+                return 0 # Returns user back to main menu
+            
     else:
         pass
 
@@ -1588,23 +1762,18 @@ def main():
         choice = -1 # Arbitrary choice to enter while loop
 
         # Stay at the main menu if user selects an unimplemented function
-        while choice not in [1, 3, 4, 5, 6, 7]:
+        while choice not in [1, 2, 3, 4, 5, 6, 7]:
             choice = mainMenu()
-            if choice not in [1, 3, 4, 5, 6, 7]:
-                clearScreen()
-                print("Menu item 2 is not yet implemented")
-                time.sleep(2) # 2 seconds delay
-                clearScreen()
 
         # Choice 1: Start a New Game
         if choice == 1:
-            n = select_difficulty()
             clearScreen()
-            playGame(n, type=1)
+            playGame(type=1)
 
         # Choice 2: Load a Saved Game
         elif choice == 2:
-            raise Exception("Function not yet implemented")
+            clearScreen()
+            playGame(type=2)
 
         # Choice 3: Change User
         elif choice == 3:
