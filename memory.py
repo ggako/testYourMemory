@@ -404,12 +404,12 @@ def selectCard(stateBoard, currentSelection, icMapDict):
         if cardSelected not in boardCards:
             clearScreen()
             print(Fore.RED + "Card selected is invalid :(" + Style.RESET_ALL)
-            time.sleep(.5)
+            time.sleep(1)
             return False            
         elif cardSelected not in availableCards:
             clearScreen()
             print(Fore.RED + "Selected card already flipped :)" + Style.RESET_ALL)
-            time.sleep(.5)
+            time.sleep(1)
             return False
         else:
             return cardSelected
