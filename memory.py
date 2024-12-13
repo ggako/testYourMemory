@@ -1639,6 +1639,11 @@ def playGame(type=1):
         n = select_difficulty()
         clearScreen()
 
+        text_effect(f"Instead of selecting a card, you can press 'Q' to quit without saving or 'S' to save and quit the game", Fore.GREEN, .03) 
+        time.sleep(4)
+        print(Style.RESET_ALL) 
+        clearScreen()
+
         # Initialize boards and game variables
         ciMapDict = coordinateToIndexMap(n)
         icMapDict = indexToCoordinateMap(n)
