@@ -1217,7 +1217,7 @@ def decryptBoard(encryptedBoard, key):
     for row in encryptedBoard:
         decryptedRow = [fernet.decrypt(cell).decode() for cell in row]
         decryptedBoard.append(decryptedRow)
-    return assignmentBoard
+    return decryptedBoard
 
 
 def saveBoard(assignmentBoard, stateBoard, currentSelection, totalMoves):
