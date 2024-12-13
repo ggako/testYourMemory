@@ -1709,7 +1709,35 @@ def playGame(type=1):
             return 0            
 
         # Load saved files (NOTE: currentName called from getCurrentName() will be overwritten by saved username)
-        assignmentBoard, stateBoard, currentSelection, totalMoves, currentName = loadBoard()
+        assignmentBoard, stateBoard, currentSelection, totalMoves, currentNameLoaded = loadBoard()
+
+        # Confirm to user that the current user is different from loaded user
+        if currentName != currentNameLoaded:
+
+            response = -1
+
+            # Query response (if user wants to retain current user or switch to loaded user)
+            while response not in ['Y', 'N']:
+                response = text_effect_input("Current user is different from user in saved file. Do you want to proceed to game and switch to the saved user? Y if yes, N if no\n", Fore.GREEN, .02).upper()
+                print(Style.RESET_ALL)
+                clearScreen()
+
+            # Case: "Y" - update currentName in function and in currentname.txt file
+            if response == 'Y':
+
+                # Set loaded name as currentName
+                currentName = currentNameLoaded
+
+                # Change and update current user file
+                currentNameFile = "name/currentname.txt"
+                with open(currentNameFile, 'w') as file:
+                    file.write(currentName)
+
+            # Case: "N" - retain currentName and return to main menu
+            else:
+                text_effect("Returning to main menu...", Fore.RED)
+                time.sleep(2)
+                return 0
 
         # Get n (use assignmentBoard as reference)
         n = len(assignmentBoard)
