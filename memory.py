@@ -353,7 +353,6 @@ def selectCard(stateBoard, currentSelection, icMapDict):
     try:
         cardSelected = input(Fore.MAGENTA + "Select card to flip: " + Style.RESET_ALL)
 
-        # TODO: Feature not implemented: Option to save while selecting card
         if cardSelected.lower() == 's':
             clearScreen()
             answer = text_effect_input("Are you sure you want to save and close the game? Type and enter Y/y\n")
