@@ -695,7 +695,7 @@ def welcomeScreen(currentName):
     input("Press Enter to start the game...")
 
 
-def congratsScreen(currentName, score):
+def congratsScreen(currentName, score, n):
     """
     Displays a congratulation screen
     """
@@ -705,7 +705,8 @@ def congratsScreen(currentName, score):
     print("****************************")
     print(f"Well done, {currentName}!")
     print(f"Your final score is {score}")
-    print("You've reached the leaderboard!")
+    if isAddedToLeaderboard(score, n):
+        print("You've reached the leaderboard!")
     print("Keep playing to improve your score!")
     print()
     input("Press Enter to continue...")
@@ -1642,7 +1643,7 @@ def playGame(type=1):
             # Check if game is over
             if gameOver(stateBoard) == True:
                 recordGameLog(currentName, int(totalMovesToScore(totalMoves, n)), n)
-                congratsScreen(currentName, int(totalMovesToScore(totalMoves, n)))
+                congratsScreen(currentName, int(totalMovesToScore(totalMoves, n)), n)
                 return 0 # Returns user back to main menu
 
     # For save game implementation
@@ -1725,7 +1726,7 @@ def playGame(type=1):
             # Check if game is over
             if gameOver(stateBoard) == True:
                 recordGameLog(currentName, int(totalMovesToScore(totalMoves, n)), n)
-                congratsScreen(currentName, int(totalMovesToScore(totalMoves, n)))
+                congratsScreen(currentName, int(totalMovesToScore(totalMoves, n)), n)
                 deleteBoard()
                 return 0 # Returns user back to main menu
 
@@ -1800,7 +1801,7 @@ def playGame(type=1):
             # Check if game is over
             if gameOver(stateBoard) == True:
                 recordGameLog(currentName, int(totalMovesToScore(totalMoves, n)), n)
-                congratsScreen(currentName, int(totalMovesToScore(totalMoves, n)))
+                congratsScreen(currentName, int(totalMovesToScore(totalMoves, n)), n)
                 deleteBoard()
                 return 0 # Returns user back to main menu
             
