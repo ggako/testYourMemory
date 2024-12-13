@@ -499,7 +499,9 @@ if platform.system() == "Windows":
 
     def getch():
         """Captures a single keypress from the user on Windows."""
-        return msvcrt.getch().decode('utf-8')
+        # removed the call to the decode method here since we're
+        # already using the raw bytes
+        return msvcrt.getch()   
 
 elif platform.system() in ["Linux", "Darwin"]:  # Darwin is for macOS
     import termios
@@ -557,12 +559,14 @@ def handle_menu():
         show_menu(selected)  # Show the menu with the current selection
         print(Fore.YELLOW + "Use ↑/↓ to navigate and Enter to select." + Style.RESET_ALL)
         key = getch()  # Get key input
+        if key in [b'\x00', b'\xe0']: # If getch is defined on Windows, these either prefix represents arrow keys
+            key += msvcrt.getch() # Another call to getch will capture the suffix (b'H' or b'P')
 
-        if key == (chr(72) if platform.system() == "Windows" else "\x1b[A"):  # decimal 72 represents up arrow key
+        if key == ((b'\x00H' or b'\xe0H')  if platform.system() == "Windows" else "\x1b[A"):  # bytes representation for Windows, string for MacOS
             selected = (selected - 1) % total_options  # Wrap around if at the top
-        elif key == (chr(80) if platform.system() == "Windows" else "\x1b[B"):  # decimal 80 represents down arrow key
+        elif key == ((b'\x00P' or b'\xe0P') if platform.system() == "Windows" else "\x1b[B"):  # bytes representation for Windows, string for MacOS
             selected = (selected + 1) % total_options  # Wrap around if at the bottom
-        elif key == (chr(13) if platform.system() == "Windows" else "\r"):  # Enter key
+        elif key == (b'\r' if platform.system() == "Windows" else "\r"):  # Enter key
             if selected == 2:
                 print(Fore.BLUE + "Fetching saved games..." + Style.RESET_ALL)
             elif selected == 3:
@@ -618,11 +622,14 @@ def select_difficulty():
         print(Fore.YELLOW + "Use ↑/↓ to navigate and Enter to select." + Style.RESET_ALL)
 
         key = getch()  # Get key input
-        if key == (chr(72) if platform.system() == "Windows" else "\x1b[A"):  # Up arrow key
-            selected = (selected - 1) % total_options
-        elif key == (chr(80) if platform.system() == "Windows" else "\x1b[B"):  # Down arrow key
-            selected = (selected + 1) % total_options
-        elif key == (chr(13) if platform.system() == "Windows" else "\r"):  # Enter key
+        if key in [b'\x00', b'\xe0']: # If getch is defined on Windows, these either prefix represents arrow keys
+            key += msvcrt.getch() # Another call to getch will capture the suffix (b'H' or b'P')
+
+        if key == ((b'\x00H' or b'\xe0H')  if platform.system() == "Windows" else "\x1b[A"):  # bytes representation for Windows, string for MacOS
+            selected = (selected - 1) % total_options  # Wrap around if at the top
+        elif key == ((b'\x00P' or b'\xe0P') if platform.system() == "Windows" else "\x1b[B"):  # bytes representation for Windows, string for MacOS
+            selected = (selected + 1) % total_options  # Wrap around if at the bottom
+        elif key == (b'\r' if platform.system() == "Windows" else "\r"):  # Enter key
 
             # Converts key values into a list then indexed with the current "select" value.
             # The resulting lookup maps to the corresponding diff. level (4, 6, or 8)
@@ -932,7 +939,28 @@ def updateGameLog(currentNameList):
     Returns:
         None (only updates the game log file)   
     """
-    pass
+
+    # Store gamelog.csv as a Pandas DataFrame
+    game_log = pd.read_csv(r"gamelog\gamelog.csv")
+
+    # Convert the "Name" column (a pd.Series object) to a set 
+    unique_names_in_log = set(game_log["Name"])
+
+    # Convert "currentNameList" to another set
+    unique_names_in_list = set(currentNameList)
+
+    # Check for discrepancies using the minus operator for sets
+    name_discrepancy = list(unique_names_in_log - unique_names_in_list)
+
+    for name in name_discrepancy:
+        # Drop rows where the "Name" column matches names in name_discrepancy
+        game_log = game_log.drop(game_log.loc[game_log["Name"] == name, :].index)
+
+    # Reset index so the DataFrame doesn't have index gaps after row removal
+    game_log.reset_index(drop=True, inplace=True)
+
+    # Save the updated DataFrame back to gamelog.csv
+    game_log.to_csv(r"gamelog\gamelog.csv", index=False)
 
 
 def setUserName():
