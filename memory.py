@@ -14,6 +14,7 @@ import time
 # Third Party Libraries
 from art import text2art
 from colorama import Fore, Style, init
+from cryptography.fernet import Fernet
 import pandas as pd
 from pyfiglet import Figlet
 from tabulate import tabulate 
@@ -1147,7 +1148,14 @@ def encryptBoard(assignmentBoard):
         encryptedBoard (list): version of assignment board where every element is encrypted
         key: key object generated during encryption / to be used for decryption  
     """
-    pass
+    key = Fernet.generate_key()
+    fernet = Fernet(key)
+
+    encryptedBoard = []
+    for row in assignmentBoard:
+        encryptRow = [fernet.encrypt(cell.encode()) for cell in row]
+        encryptedBoard.append(encryptRow)
+    return encryptedBoard, key
 
 
 def decryptBoard(encryptedBoard, key):
@@ -1160,7 +1168,13 @@ def decryptBoard(encryptedBoard, key):
     Returns:
         assignmentBoard (list): multidimensional list of size n x n containing the assignments
     """
-    pass
+    fernet = Fernet(key)
+
+    decryptedBoard = []
+    for row in encryptedBoard:
+        decryptedRow = [fernet.decrypt(cell).decode() for cell in row]
+        decryptedBoard.append(decryptedRow)
+    return assignmentBoard
 
 
 def saveBoard(assignmentBoard, stateBoard, currentSelection, totalMoves):
