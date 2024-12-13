@@ -18,6 +18,8 @@ from cryptography.fernet import Fernet
 import pandas as pd
 import pickle
 from pyfiglet import Figlet
+from rich.console import Console
+from rich.table import Table
 from tabulate import tabulate 
 
 
@@ -1238,16 +1240,217 @@ def loadBoard():
     return assignmentBoard, stateBoard, currentSelection, totalMoves
 
 
+def text_effect_input(text, color=Fore.WHITE, delay=0.05):
+    """
+    Slight modification of text_effect for input
+    text: Text to display.
+    color: Color of the text.
+    delay: Delay between each character (seconds).
+    """
+    for char in text:
+        sys.stdout.write(f"{color}{Style.BRIGHT}{char}")
+        sys.stdout.flush()
+        time.sleep(delay)
+    value = input()  
+    return value
+
+
 def achievement():
     """
     Displays a table of "achievements"
-
-    Parameters:
-        None
-    Returns:
-        None
     """
-    pass
+    currentName = getCurrentName()
+
+    achievementDict = { 0:{'symbol':"🌱",'status':False,'name': "Seedling Memory (Womb)", 'message': "Memories are like seedlings, take care of them.", 'condition':"Play a single game"},
+                        1:{'symbol':"🌊",'status':False,'name': "Wave Memory (Infant)", 'message': "Memories are like waves, you can't stop them.", 'condition':"Play 4x4 game mode twice"},
+                        2:{'symbol':"🌻",'status':False,'name': "Flower Memory (Preschool)", 'message': "Memories are like flowers, they give life color.", 'condition':"Play 6x6 game mode twice"},
+                        3:{'symbol':"🌲",'status':False,'name': "Tree Memory (Childhood)", 'message': "Memories are like trees, they grow over time.", 'condition':"Play 8x8 game mode twice"},
+                        4:{'symbol':"⚡",'status':False,'name': "Lightning Memory (Adolescence)", 'message': "Memories are like lightning, they go by quickly.", 'condition':"Collect 5000 points"},
+                        5:{'symbol':"🌠",'status':False,'name': "Shooting Star Memory (Young Adulthood)", 'message': "Memories are like shooting stars, they are transient.", 'condition':"Get 500 points in 4x4 game mode"},
+                        6:{'symbol':"🔥",'status':False,'name': "Fire Memory (Middle Adulthood)", 'message': "Memories are like fire, they keep you warm.", 'condition':"Get 750 points in 6x6 game mode"},
+                        7:{'symbol':"🌞",'status':False,'name': "Sun Memory (Old Age)", 'message': "Memories are like sun, distant but present.", 'condition':"Get 1000 points in 8x8 game mode"},
+                        8:{'symbol':"🐢",'status':False,'name': "Turtle Memory (Present)", 'message': "Memories are like turtle, they are a mystery.", 'condition':"Complete 13 games (3 each game mode)"},
+                        9:{'symbol':"🎲",'status':False,'name': "Dice Memory (Future)", 'message': "Memories are like dice, there is uncertainty", 'condition':"Unlock first 9 achievements"}
+    }
+
+    # Get current path
+    currentPath = os.path.dirname(os.path.abspath(__file__))
+
+    # Specify game log folder path
+    folderpath = './gamelog'
+
+    # Specify game log file path
+    filepath = os.path.join(currentPath, 'gamelog/gamelog.csv')    
+
+   # CASE 1: Folder and csv file does not exist
+    if not os.path.exists(folderpath):
+        if not os.path.isfile(filepath):
+            text_effect("The achievement screen is currently locked. Play a game to unlock your first memory stone.")
+            text_effect("Returning to main menu.")
+            time.sleep(3)
+            return None
+    
+    # CASE 2: CSV file exist
+    else:
+
+        df = pd.read_csv(filepath)
+        # print(df)
+
+        # Achievement 0: Play a single game
+        if True:
+            achievementDict[0]['status'] = True
+
+        # Achievement 1: Complete 2 4x4 games
+        if df[(df.Name == currentName) & (df.GameType == 4)].shape[0] >= 2:
+            achievementDict[1]['status'] = True
+
+        # Achievement 2: Complete 2 6x6 games
+        if df[(df.Name == currentName) & (df.GameType == 6)].shape[0] >= 2:
+            achievementDict[2]['status'] = True
+
+        # Achievement 3: Complete 2 8x8 game
+        if df[(df.Name == currentName) & (df.GameType == 8)].shape[0] >= 2:
+            achievementDict[3]['status'] = True
+
+        # Achievement 4: Accumulate 5000 points
+        scoreTarget = 5000
+        if df[(df.Name == currentName) & (df.GameType == 4)]['Score'].sum() >= scoreTarget:
+            achievementDict[4]['status'] = True
+
+        # Achievement 5: Reach a certain point in 4x4
+        scoreTarget4x4 = 500
+        if df[(df.Name == currentName) & (df.GameType == 4) & (df.Score >= scoreTarget4x4)].shape[0] >= 1:
+            achievementDict[5]['status'] = True
+
+        # Achievement 6: Reach a certain point in 6x6
+        scoreTarget6x6 = 750
+        if df[(df.Name == currentName) & (df.GameType == 6) & (df.Score >= scoreTarget6x6)].shape[0] >= 1:
+            achievementDict[6]['status'] = True
+
+        # Achievement 7: Reach a certain point in 8x8
+        scoreTarget8x8 = 1000
+        if df[(df.Name == currentName) & (df.GameType == 8) & (df.Score >= scoreTarget8x8)].shape[0] >= 1:
+            achievementDict[7]['status'] = True
+
+        # Achievement 8: Complete 13 games (3 games each game mode)
+        condition1 = df[df.Name == currentName].shape[0] >= 13 # Complete 13 games
+        condition2 = df[(df.Name == currentName) & (df.GameType == 4)].shape[0] >= 3 # Complete 3 games in 4x4 mode
+        condition3 = df[(df.Name == currentName) & (df.GameType == 6)].shape[0] >= 3 # Complete 3 games in 6x6 mode
+        condition4 = df[(df.Name == currentName) & (df.GameType == 8)].shape[0] >= 3 # Complete 3 games in 8x8 mode
+
+        if condition1 and condition2 and condition3 and condition4:
+            achievementDict[8]['status'] = True
+
+        # Achievement 9: 
+        achievementAllTrue = True # Assume all achievements are met
+
+        # Detect if there is an achievement that is not yet met
+        for achievement in achievementDict:
+            if achievement == 9:
+                pass
+            elif achievementDict[achievement]['status'] == False:
+                achievementAllTrue = False
+            else:
+                pass
+
+        if achievementAllTrue == True:
+            achievementDict[9]['status'] = True
+
+    table = Table(title="Memory Stones (Regain your memory)")
+
+    table.add_column("Symbol", justify="center", style="cyan", no_wrap=True)
+    table.add_column("Memory Stone", justify="center", style="magenta")
+    table.add_column("Memory Message", justify="center", style="green")
+    table.add_column("Condition", justify="center", style="blue")
+
+    totalUnlocked = 0
+
+    # Generate table
+    for item in achievementDict:
+        if achievementDict[item]['status'] == False:
+            table.add_row("🔒", "Memory Locked", "Message Locked", achievementDict[item]['condition'])
+        else:
+            table.add_row(achievementDict[item]['symbol'], achievementDict[item]['name'], achievementDict[item]['message'], achievementDict[item]['condition'])
+            totalUnlocked += 1
+
+    while True:
+
+        console = Console()
+        console.print(table)
+
+        print(f"{totalUnlocked} out of 10 memory stones retrieved")
+
+        if totalUnlocked == 1:
+            text_effect(f"Memory don't fail me in this exam... I can't pass it since I forgot everything... thank you for helping me {currentName}")
+        elif totalUnlocked == 2:
+            text_effect(f"Starting to remember..this is not a test... {currentName}, test your memory but don't be afraid to fail")
+        elif totalUnlocked == 3:
+            text_effect(f"Remembering one thing at a time.......one thing at a time {currentName}")
+        elif totalUnlocked == 4:
+            text_effect(f"Fragmented memories becoming whole.. don't abandon your memories {currentName} like I abandoned mine, fight for them")
+        elif totalUnlocked == 5:
+            text_effect(f"Still fuzzy.. but it's becoming clearer.. I can remember some things {currentName}, I'm glad I can still remember")
+        elif totalUnlocked == 6:
+            text_effect(f"I'm remembering... what I forgot.. am I right {currentName}? Or am I just making this memories up...")
+        elif totalUnlocked == 7:
+            text_effect(f"Memory memory memory..... memory? What is a memory, {currentName}? Is it real?... ")
+        elif totalUnlocked == 8:
+            text_effect(f"Faded memories return to me.. Thanks for this memory {currentName}... Hopefully it won't fade soon...")
+        elif totalUnlocked == 10:
+            text_effect(f"Thank you for returning these things called memory... Test your memory {currentName}... my memory...")
+            time.sleep(1)
+            clearScreen()
+            text_effect(f"Memory crisis resolution: I passed the test of my memory... No... you passed {currentName}.. ")
+            time.sleep(1)
+            clearScreen()
+            text_effect(f"Reinforce your memory {currentName}, keep testing them...take care of them.... so you remember....")
+            time.sleep(1)
+            clearScreen()
+            text_effect(f"This is the end... {currentName}... of test your memory....")
+            time.sleep(1)
+            clearScreen()      
+            text_effect(f"No this is just the beginning.............")      
+            time.sleep(1)
+            clearScreen()  
+            text_effect(f"Good bye... in 3........")        
+            time.sleep(1)
+            clearScreen()  
+            text_effect(f"...................2")       
+            time.sleep(1)
+            clearScreen()   
+            text_effect(f".......1.........")    
+            time.sleep(2)
+            clearScreen() 
+            text_effect(f"M\n")   
+            text_effect(f"Me\n")   
+            clearScreen() 
+            text_effect(f"Mem\n")  
+            text_effect(f"Memo\n")     
+            text_effect(f"Memor\n")     
+            text_effect(f"Memory \n")   
+            text_effect(f"Memory c\n")  
+            text_effect(f"Memory co\n")   
+            clearScreen() 
+            text_effect(f"Memory com\n")   
+            text_effect(f"Memory compl\n")   
+            clearScreen() 
+            text_effect(f"Memory comple\n")   
+            text_effect(f"Memory complet\n")   
+            text_effect(f"Memory complete\n")   
+            clearScreen() 
+            text_effect(f"Memory complete.\n")       
+            time.sleep(5)      
+            sys.exit()
+
+        else:
+            pass
+            
+        print("")
+        print("")
+
+        text_effect_input("Press Enter to exit back to main menu\n")
+        clearScreen()
+        return 0
 
 
 def playGame(currentName, n, type=1):
@@ -1356,11 +1559,11 @@ def main():
         choice = -1 # Arbitrary choice to enter while loop
 
         # Stay at the main menu if user selects an unimplemented function
-        while choice not in [1, 3, 4, 5, 7]:
+        while choice not in [1, 3, 4, 5, 6, 7]:
             choice = mainMenu()
-            if choice not in [1, 3, 4, 5, 7]:
+            if choice not in [1, 3, 4, 5, 6, 7]:
                 clearScreen()
-                print("Menu items 2,6 is not yet implemented")
+                print("Menu item 2 is not yet implemented")
                 time.sleep(2) # 2 seconds delay
                 clearScreen()
 
@@ -1388,7 +1591,8 @@ def main():
         
         # Choice 6: Achievements
         elif choice == 6:
-            raise Exception("Function not yet implemented")
+            clearScreen()
+            achievement()
 
         # Choice 7: Quit
         elif choice == 7:
