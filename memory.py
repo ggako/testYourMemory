@@ -1277,6 +1277,23 @@ def loadBoard():
     return assignmentBoard, stateBoard, currentSelection, totalMoves
 
 
+def deleteBoard():
+    """
+    Deletes data in save files (to be called after finishing the resumed load game)
+
+    Parameters:
+        None
+    Returns:
+        None
+    """
+    toBeDeletedPath = ["savefiles/assignmentBoard.pkl", "savefiles/stateBoard.pkl",
+                       "savefiles/currentSelection.pkl", "savefiles/totalMoves.pkl"]
+    
+    for path in toBeDeletedPath:
+        if os.path.exists(path):
+            os.remove(path)
+
+
 def text_effect_input(text, color=Fore.WHITE, delay=0.05):
     """
     Slight modification of text_effect for input
@@ -1669,6 +1686,7 @@ def playGame(type=1):
             if gameOver(stateBoard) == True:
                 recordGameLog(currentName, int(totalMovesToScore(totalMoves, n)), n)
                 congratsScreen(currentName, int(totalMovesToScore(totalMoves, n)))
+                deleteBoard()
                 return 0 # Returns user back to main menu
 
         gameRunning = True
@@ -1741,6 +1759,7 @@ def playGame(type=1):
             if gameOver(stateBoard) == True:
                 recordGameLog(currentName, int(totalMovesToScore(totalMoves, n)), n)
                 congratsScreen(currentName, int(totalMovesToScore(totalMoves, n)))
+                deleteBoard()
                 return 0 # Returns user back to main menu
             
     else:
