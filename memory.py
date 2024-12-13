@@ -276,7 +276,7 @@ def leaderboards(gameLogFile):
     return 1
 
   
-def isAddedToLeaderboard(score, n, gameLogFile):
+def isAddedToLeaderboard(score, n, gameLogFile="gamelog/gamelog.csv"):
     """
     Checks if the user's latest record is added to the leaderboard
 
