@@ -871,15 +871,26 @@ def recordGameLog(currentName, score, n):
             # Open CSV File
             df = pd.read_csv(filepath)
             
-            # Get ID of newest game log entry
-            lastRow = list(df.iloc[-1]) # Gets the last row
-            nextID = int(lastRow[0]) + 1 # Gets the index of new entry
+            # Special Case: User emptied the game log via deletion of users with existing log
+            if df.empty:
 
-            # Add new entry to dataframe
-            df.loc[len(df)] = [nextID, currentName, score, n, today]
+                df.loc[len(df)] = [1, currentName, score, n, today]
 
-            # Save to csv
-            df.to_csv(filepath, index=False)
+                # Save to csv
+                df.to_csv(filepath, index=False)
+
+            # General Case: A log already exist in the gamelog.csv file
+            else:
+
+                # Get ID of newest game log entry
+                lastRow = list(df.iloc[-1]) # Gets the last row
+                nextID = int(lastRow[0]) + 1 # Gets the index of new entry
+
+                # Add new entry to dataframe
+                df.loc[len(df)] = [nextID, currentName, score, n, today]
+
+                # Save to csv
+                df.to_csv(filepath, index=False)
 
 
 def loadRecentUserName():
