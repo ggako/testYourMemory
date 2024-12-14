@@ -397,6 +397,14 @@ def selectCard(stateBoard, currentSelection, icMapDict):
             if answer.lower() == "y":
                 return True
             
+        elif cardSelected.lower() == 'q':
+
+            answer = text_effect_input("Are you sure you want to quit the game, your game will not be saved. Type and enter Y/y\n", delay=.02)
+            print(Style.RESET_ALL)            
+
+            if answer.lower() == "y":
+                return True
+            
         # Convert card selected to integer
         cardSelected = int(cardSelected)
 
