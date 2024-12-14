@@ -751,7 +751,7 @@ def welcomeScreen(currentName):
         time.sleep(1)       
     elif response == "X":
         clearScreen()
-        text_effect(f"Teleporting to MemoryLand.........", Fore.RED, delay=0.1)        
+        text_effect(f"Teleporting to MemoryLand.........", Fore.RED, delay=0.05)        
         clearScreen()
         text_effect(f"Your Destination 📍:", Fore.RED, delay=0.1) 
         print("")
@@ -760,14 +760,15 @@ def welcomeScreen(currentName):
 
     print(Style.RESET_ALL)
     clearScreen()  # Clear the screen
-    print("****************************")
-    print("*   Test Your Memory Game  *")
-    print("****************************")
-    print(f"Welcome, {currentName}!")
-    print("Get ready to test your memory skills!")
-    print("Match all the pairs with the fewest moves possible!")
+    text_effect("************************", Fore.RED, delay=0.01)
+    text_effect("*Test Your Memory Game *", Fore.RED, delay=0.01)
+    text_effect("************************", Fore.RED, delay=0.01)
+    text_effect(f"Welcome, {currentName}!", Fore.GREEN, delay=0.05)
+    text_effect("Get ready to test your memory skills!", Fore.CYAN, delay=0.02)
+    text_effect("Match all the pairs with the fewest moves possible!", Fore.RED, delay=0.02)
     print()
-    input("Press Enter to start the game...")
+    text_effect("Press any key to start the game...", Fore.GREEN, delay=.02)
+    input()
 
 
 def congratsScreen(currentName, score, n):
