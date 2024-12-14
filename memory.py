@@ -388,10 +388,10 @@ def selectCard(stateBoard, currentSelection, icMapDict):
             clearScreen()
 
             if len(dir) == 0:
-                answer = text_effect_input("Are you sure you want to save and close the game? Type and enter Y/y\n", delay=.02)
+                answer = text_effect_input("Are you sure you want to save and close the game? Type and enter Y/y\n", Fore.RED, delay=.02)
                 print(Style.RESET_ALL)
             else:
-                answer = text_effect_input("There is a saved file present that could be overwritten. Are you sure you want to save and close the game? Type and enter Y/y\n", delay=.02)
+                answer = text_effect_input("There is a saved file present that could be overwritten. Are you sure you want to save and close the game? Type and enter Y/y\n", Fore.RED, delay=.02)
                 print(Style.RESET_ALL)
 
             if answer.lower() == "y":
@@ -399,7 +399,8 @@ def selectCard(stateBoard, currentSelection, icMapDict):
             
         elif cardSelected.lower() == 'q':
 
-            answer = text_effect_input("Are you sure you want to quit the game, your game will not be saved. Type and enter Y/y\n", delay=.02)
+            clearScreen()
+            answer = text_effect_input("Are you sure you want to quit the game, your game will not be saved. Type and enter Y/y\n", Fore.RED ,delay=.02)
             print(Style.RESET_ALL)            
 
             if answer.lower() == "y":
