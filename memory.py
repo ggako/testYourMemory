@@ -619,11 +619,11 @@ def handle_menu():
         if key in [b'\x00', b'\xe0']: # If getch is defined on Windows, these either prefix represents arrow keys
             key += msvcrt.getch() # Another call to getch will capture the suffix (b'H' or b'P')
 
-        if key == ((b'\x00H' or b'\xe0H')  if platform.system() == "Windows" else "\x1b[A"):  # bytes representation for Windows, string for MacOS
+        if key in [b'\x00H', b'\xe0H', "\x1b[A"]: # Up arrow key
             selected = (selected - 1) % total_options  # Wrap around if at the top
-        elif key == ((b'\x00P' or b'\xe0P') if platform.system() == "Windows" else "\x1b[B"):  # bytes representation for Windows, string for MacOS
+        elif key in [b'\x00P', b'\xe0P', "\x1b[B"]: # Down arrow key
             selected = (selected + 1) % total_options  # Wrap around if at the bottom
-        elif key == (b'\r' if platform.system() == "Windows" else "\r"):  # Enter key
+        elif key in [b'\r', "\r"]: # Enter key
             if selected == 2:
                 print(Fore.BLUE + "Fetching saved games..." + Style.RESET_ALL)
             elif selected == 3:
@@ -683,11 +683,11 @@ def select_difficulty():
         if key in [b'\x00', b'\xe0']: # If getch is defined on Windows, these either prefix represents arrow keys
             key += msvcrt.getch() # Another call to getch will capture the suffix (b'H' or b'P')
 
-        if key == ((b'\x00H' or b'\xe0H')  if platform.system() == "Windows" else "\x1b[A"):  # bytes representation for Windows, string for MacOS
+        if key in [b'\x00H', b'\xe0H', "\x1b[A"]: # Up arrow key
             selected = (selected - 1) % total_options  # Wrap around if at the top
-        elif key == ((b'\x00P' or b'\xe0P') if platform.system() == "Windows" else "\x1b[B"):  # bytes representation for Windows, string for MacOS
+        elif key in [b'\x00P', b'\xe0P', "\x1b[B"]: # Down arrow key
             selected = (selected + 1) % total_options  # Wrap around if at the bottom
-        elif key == (b'\r' if platform.system() == "Windows" else "\r"):  # Enter key
+        elif key in [b'\r', "\r"]:  # Enter key
 
             # Converts key values into a list then indexed with the current "select" value.
             # The resulting lookup maps to the corresponding diff. level (4, 6, or 8)
