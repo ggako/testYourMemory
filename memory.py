@@ -1584,7 +1584,8 @@ def achievement():
         console = Console()
         console.print(table)
 
-        print(f"{totalUnlocked} out of 10 memory stones retrieved")
+        text_effect(f"{totalUnlocked} out of 10 memory stones retrieved", delay=.02)
+        print()
 
         if totalUnlocked == 1:
             text_effect(f"Memory don't fail me in this exam... I can't pass it since I forgot everything... thank you for helping me {currentName}")
@@ -1652,9 +1653,9 @@ def achievement():
             pass
             
         print("")
-        print("")
 
-        text_effect_input("Press Enter to exit back to main menu\n")
+
+        text_effect_input("Press any key to exit back to main menu\n", Fore.GREEN, delay=.01)
         clearScreen()
         return 0
 
