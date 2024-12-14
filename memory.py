@@ -608,12 +608,12 @@ def handle_menu():
         print(Fore.YELLOW + "Use ↑/↓ to navigate and Enter to select." + Style.RESET_ALL)
         key = getch()  # Get key input
         if key in [b'\x00', b'\xe0']: # If getch is defined on Windows, these either prefix represents arrow keys
-            key += msvcrt.getch() # Another call to getch will capture the suffix (b'H' or b'P')
+            key = msvcrt.getch() # Another call to getch will capture the suffix (b'H' or b'P')
+            if key == (b'H'  if platform.system() == "Windows" else "\x1b[A"):  # bytes representation for Windows, string for MacOS
+                selected = (selected - 1) % total_options  # Wrap around if at the top
+            elif key == (b'P' if platform.system() == "Windows" else "\x1b[B"):  # bytes representation for Windows, string for MacOS
+                selected = (selected + 1) % total_options  # Wrap around if at the bottom
 
-        if key == ((b'\x00H' or b'\xe0H')  if platform.system() == "Windows" else "\x1b[A"):  # bytes representation for Windows, string for MacOS
-            selected = (selected - 1) % total_options  # Wrap around if at the top
-        elif key == ((b'\x00P' or b'\xe0P') if platform.system() == "Windows" else "\x1b[B"):  # bytes representation for Windows, string for MacOS
-            selected = (selected + 1) % total_options  # Wrap around if at the bottom
         elif key == (b'\r' if platform.system() == "Windows" else "\r"):  # Enter key
             if selected == 2:
                 print(Fore.BLUE + "Fetching saved games..." + Style.RESET_ALL)
@@ -672,14 +672,13 @@ def select_difficulty():
 
         key = getch()  # Get key input
         if key in [b'\x00', b'\xe0']: # If getch is defined on Windows, these either prefix represents arrow keys
-            key += msvcrt.getch() # Another call to getch will capture the suffix (b'H' or b'P')
+            key = msvcrt.getch() # Another call to getch will capture the suffix (b'H' or b'P')
+            if key == (b'H'  if platform.system() == "Windows" else "\x1b[A"):  # bytes representation for Windows, string for MacOS
+                selected = (selected - 1) % total_options  # Wrap around if at the top
+            elif key == (b'P' if platform.system() == "Windows" else "\x1b[B"):  # bytes representation for Windows, string for MacOS
+                selected = (selected + 1) % total_options  # Wrap around if at the bottom
 
-        if key == ((b'\x00H' or b'\xe0H')  if platform.system() == "Windows" else "\x1b[A"):  # bytes representation for Windows, string for MacOS
-            selected = (selected - 1) % total_options  # Wrap around if at the top
-        elif key == ((b'\x00P' or b'\xe0P') if platform.system() == "Windows" else "\x1b[B"):  # bytes representation for Windows, string for MacOS
-            selected = (selected + 1) % total_options  # Wrap around if at the bottom
         elif key == (b'\r' if platform.system() == "Windows" else "\r"):  # Enter key
-
             # Converts key values into a list then indexed with the current "select" value.
             # The resulting lookup maps to the corresponding diff. level (4, 6, or 8)
             diff_level = difficulties[list(difficulties.keys())[selected]]
