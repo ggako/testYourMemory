@@ -714,7 +714,8 @@ def welcomeScreen(currentName):
     response = 0
 
     while response not in ['Z', 'X']:
-        response = text_effect_input("Press Z to play the intro, press X to teleport to MemoryLand\n", Fore.GREEN).upper()
+        response = text_effect_input("Press Z to play the intro, press X to teleport to MemoryLand\n", Fore.GREEN, delay=.02).upper()
+        clearScreen()
 
     if response == "Z":
         clearScreen()
