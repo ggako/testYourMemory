@@ -21,6 +21,8 @@ from pyfiglet import Figlet
 from rich.console import Console
 from rich.table import Table
 from tabulate import tabulate 
+from termcolor import colored
+
 
 
 # Initialize the colorama module for adding stylized text
@@ -134,12 +136,14 @@ def displayBoard(assignmentBoard, stateBoard, selectedCard, ciMapDict):
     for i, card in enumerate(assignmentBoard):
         card_display = []
         for j, value in enumerate(card):
-            if stateBoard[i][j] or (i, j) in coordSelectedCard: # (i,j) in selected card is coordinate of the selected card
-                card_display.append(f"{value:^5}")  # Show actual value if revealed match or temporarily revealed as Selected card
+            if stateBoard[i][j]:  # (i,j) in selected card is coordinate of the selected card
+                card_display.append(colored(f"{value:^5}", 'green'))  # Show actual value if revealed match or temporarily revealed as Selected card
+            elif (i, j) in coordSelectedCard:
+                card_display.append(colored(f"{value:^5}", 'red'))
             else:
-                card_display.append(f"{hidden_counter:^5}")  # Show sequential number if hidden
+                card_display.append(colored(f"{hidden_counter:^5}", 'magenta'))  # Show sequential number if hidden
             hidden_counter += 1  # Increment counter for the next hidden value
-        print(f"{'|'.join(card_display)}")  # Print card with indices and values
+        print('|'.join(card_display))  # Print card with indices and values
         print()
 
 
