@@ -17,10 +17,9 @@ from colorama import Fore, Style, init
 from cryptography.fernet import Fernet
 import pandas as pd
 import pickle
-from pyfiglet import Figlet
+from pyfiglet import Figlet, figlet_format
 from rich.console import Console
 from rich.table import Table
-from tabulate import tabulate 
 from termcolor import colored
 
 
@@ -240,12 +239,46 @@ def displayLeaderboard(leaderboard):
     if not leaderboard:
         print("Leaderboard is empty.")
         return
+    
+    f = figlet_format("MEMORYLAND HALL OF FAME", font="slant")
+    text_effect(f, Fore.RED, delay=.001)    
 
     for size, entries in leaderboard.items():
-        print(f"Leaderboard for board size {size}:")
-        table = [[entry['name'], entry['score'], entry['date_achieved'].strftime('%Y-%m-%d') if entry['date_achieved'] else ''] for entry in entries]
-        print(tabulate(table, headers=["Name", "Score", "Date Achieved"], tablefmt="fancy_grid", numalign="right", colalign=("center", "right", "center")))
-        print()
+        
+        # Create new leaderboard table
+        table = Table(title=f"🔥 {size}x{size} Mode Leaderboard 🔥")
+
+        # Create columns
+        table.add_column("Name", justify="center", style="#ff4500", no_wrap=True)
+        table.add_column("Score", justify="center", style="#ff4500")
+        table.add_column("Date Achieved", justify="center", style="#ff4500")
+
+        currentplace = 1
+
+        if size == 4:
+            time.sleep(1)
+        else:
+            time.sleep(2.4)
+
+        # Add row entries
+        for entry in entries:
+            if currentplace == 1 and entry['score'] != '':
+                table.add_row(f"{entry['name']} 🥇", str(f"{entry['score']}"), str(entry['date_achieved'].strftime('%Y-%m-%d')) if entry['date_achieved'] else '')
+            elif currentplace == 2 and entry['score'] != '' :
+                table.add_row(f"{entry['name']} 🥈", str(f"{entry['score']}"), str(entry['date_achieved'].strftime('%Y-%m-%d')) if entry['date_achieved'] else '')
+            elif currentplace == 3 and entry['score'] != '':
+                table.add_row(f"{entry['name']} 🥉", str(f"{entry['score']}"), str(entry['date_achieved'].strftime('%Y-%m-%d')) if entry['date_achieved'] else '')
+            else:
+                table.add_row(entry['name'], str(f"{entry['score']}"), str(entry['date_achieved'].strftime('%Y-%m-%d')) if entry['date_achieved'] else '')
+            currentplace += 1
+
+        # Print table
+        console = Console()
+        console.print(table, style="bold #A52A2A") 
+
+    time.sleep(1)     
+    print("")
+    text_effect("🔥 Engraved in this hall are the names of those who remembered and will be remembered 🔥\n", Fore.RED, delay=.04)
 
         
 def leaderboards(gameLogFile):
