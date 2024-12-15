@@ -275,7 +275,7 @@ def leaderboards(gameLogFile):
 
     leaderboard = readLeaderboard(gameLogFile)
     displayLeaderboard(leaderboard)
-    text_effect_input("Press any key to return to main menu", Fore.BLUE)
+    text_effect_input("Press Enter to return to main menu", Fore.BLUE)
     print(Style.RESET_ALL)
     return 1
 
@@ -767,7 +767,7 @@ def welcomeScreen(currentName):
     text_effect("Get ready to test your memory skills!", Fore.CYAN, delay=0.02)
     text_effect("Match all the pairs with the fewest moves possible!", Fore.RED, delay=0.02)
     print()
-    text_effect("Press any key to start the game...", Fore.GREEN, delay=.02)
+    text_effect("Press Enter to start the game...", Fore.GREEN, delay=.02)
     input()
 
 
@@ -1655,7 +1655,7 @@ def achievement():
         print("")
 
 
-        text_effect_input("Press any key to exit back to main menu\n", Fore.GREEN, delay=.01)
+        text_effect_input("Press Enter to exit back to main menu\n", Fore.GREEN, delay=.01)
         clearScreen()
         return 0
 
