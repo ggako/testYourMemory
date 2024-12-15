@@ -1595,12 +1595,24 @@ def achievement():
         if achievementAllTrue == True:
             achievementDict[9]['status'] = True
 
+    text_effect("################################################################", Fore.RED, delay=.001) 
+    f = figlet_format("MEMORYLAND TEMPLE", font="standard")
+    text_effect(f, Fore.GREEN, delay=.001)    
+    
+
+    text_effect("""⋆｡°✩                        ⋆｡°✩
+                ⋆｡°✩               ˗ˏˋ ★ ˎˊ˗          ⋆⭒˚.⋆
+       ⋆｡°✩                                                                ⋆⭒˚.⋆
+                                                         ★                                         
+              ★         ✩
+                ⋆⭒˚             .⋆                            ★""", Fore.YELLOW, delay=.001)    
+
     table = Table(title="Memory Stones (Regain your memory)")
 
-    table.add_column("Symbol", justify="center", style="cyan", no_wrap=True)
-    table.add_column("Memory Stone", justify="center", style="magenta")
-    table.add_column("Memory Message", justify="center", style="green")
-    table.add_column("Condition", justify="center", style="blue")
+    table.add_column("Symbol", justify="center", style="bold #85c1e9", no_wrap=True)
+    table.add_column("Memory Stone", justify="center", style="bold #a569bd")
+    table.add_column("Memory Message", justify="center", style="bold #e74c3c")
+    table.add_column("Condition", justify="center", style="bold #f5b041")
 
     totalUnlocked = 0
 
@@ -1614,51 +1626,53 @@ def achievement():
 
     while True:
 
-        console = Console()
-        console.print(table)
+        time.sleep(1)
 
-        text_effect(f"{totalUnlocked} out of 10 memory stones retrieved", delay=.02)
+        console = Console()
+        console.print(table, style="bold #2471a3")
+
+        text_effect(f"{totalUnlocked} out of 10 memory stones retrieved", Fore.RED, delay=.02)
         print()
 
         if totalUnlocked == 1:
-            text_effect(f"Memory don't fail me in this exam... I can't pass it since I forgot everything... thank you for helping me {currentName}")
+            text_effect(f"Memory don't fail me in this exam... I can't pass it since I forgot everything... thank you for helping me {currentName}", Fore.CYAN)
         elif totalUnlocked == 2:
-            text_effect(f"Starting to remember..this is not a test... {currentName}, test your memory but don't be afraid to fail")
+            text_effect(f"Starting to remember..this is not a test... {currentName}, test your memory but don't be afraid to fail", Fore.CYAN)
         elif totalUnlocked == 3:
-            text_effect(f"Remembering one thing at a time.......one thing at a time {currentName}")
+            text_effect(f"Remembering one thing at a time.......one thing at a time {currentName}", Fore.CYAN)
         elif totalUnlocked == 4:
-            text_effect(f"Fragmented memories becoming whole.. don't abandon your memories {currentName} like I abandoned mine, fight for them")
+            text_effect(f"Fragmented memories becoming whole.. don't abandon your memories {currentName} like I abandoned mine, fight for them", Fore.CYAN)
         elif totalUnlocked == 5:
-            text_effect(f"Still fuzzy.. but it's becoming clearer.. I can remember some things {currentName}, I'm glad I can still remember")
+            text_effect(f"Still fuzzy.. but it's becoming clearer.. I can remember some things {currentName}, I'm glad I can still remember", Fore.CYAN)
         elif totalUnlocked == 6:
-            text_effect(f"I'm remembering... what I forgot.. am I right {currentName}? Or am I just making this memories up...")
+            text_effect(f"I'm remembering... what I forgot.. am I right {currentName}? Or am I just making this memories up...", Fore.CYAN)
         elif totalUnlocked == 7:
-            text_effect(f"Memory memory memory..... memory? What is a memory, {currentName}? Is it real?... ")
+            text_effect(f"Memory memory memory..... memory? What is a memory, {currentName}? Is it real?... ", Fore.CYAN)
         elif totalUnlocked == 8:
-            text_effect(f"Faded memories return to me.. Thanks for this memory {currentName}... Hopefully it won't fade soon...")
+            text_effect(f"Faded memories return to me.. Thanks for this memory {currentName}... Hopefully it won't fade soon...", Fore.CYAN)
         elif totalUnlocked == 10:
-            text_effect(f"Thank you for returning these things called memory... Test your memory {currentName}... my memory...")
+            text_effect(f"Thank you for returning these things called memory... Test your memory {currentName}... my memory...", Fore.CYAN)
             time.sleep(1)
             clearScreen()
-            text_effect(f"Memory crisis resolution: I passed the test of my memory... No... you passed {currentName}.. ")
+            text_effect(f"Memory crisis resolution: I passed the test of my memory... No... you passed {currentName}.. ", Fore.CYAN)
             time.sleep(1)
             clearScreen()
-            text_effect(f"Reinforce your memory {currentName}, keep testing them...take care of them.... so you remember....")
+            text_effect(f"Reinforce your memory {currentName}, keep testing them...take care of them.... so you remember....", Fore.CYAN)
             time.sleep(1)
             clearScreen()
-            text_effect(f"This is the end... {currentName}... of test your memory....")
+            text_effect(f"This is the end... {currentName}... of test your memory....", Fore.CYAN)
             time.sleep(1)
             clearScreen()      
-            text_effect(f"No this is just the beginning.............")      
+            text_effect(f"No this is just the beginning.............", Fore.RED)      
             time.sleep(1)
             clearScreen()  
-            text_effect(f"Good bye... in 3........")        
+            text_effect(f"Good bye... in 3........", Fore.RED)        
             time.sleep(1)
             clearScreen()  
-            text_effect(f"...................2")       
+            text_effect(f"...................2", Fore.RED)       
             time.sleep(1)
             clearScreen()   
-            text_effect(f".......1.........")    
+            text_effect(f".......1.........", Fore.RED)    
             time.sleep(2)
             clearScreen() 
             text_effect(f"M\n")   
@@ -1678,7 +1692,7 @@ def achievement():
             text_effect(f"Memory complet\n")   
             text_effect(f"Memory complete\n")   
             clearScreen() 
-            text_effect(f"Memory complete.\n")       
+            text_effect(f"Memory complete.\n", Fore.YELLOW)       
             time.sleep(5)      
             sys.exit()
 
