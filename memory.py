@@ -20,6 +20,7 @@ import pickle
 from pyfiglet import Figlet, figlet_format
 from rich.console import Console
 from rich.table import Table
+from rich.text import Text
 from termcolor import colored
 
 
@@ -793,9 +794,29 @@ def welcomeScreen(currentName):
 
     print(Style.RESET_ALL)
     clearScreen()  # Clear the screen
-    text_effect("************************", Fore.RED, delay=0.01)
-    text_effect("*Test Your Memory Game *", Fore.RED, delay=0.01)
-    text_effect("************************", Fore.RED, delay=0.01)
+    # text_effect("************************", Fore.RED, delay=0.01)
+    # text_effect("*Test Your Memory Game *", Fore.RED, delay=0.01)
+    # text_effect("************************", Fore.RED, delay=0.01)
+    f = figlet_format("   Memory Port", font="doom")
+    text_effect(f, Fore.CYAN, delay=.0002)
+    clearScreen() 
+    text_effect(f, Fore.GREEN, delay=.0002)
+    clearScreen() 
+    text_effect(f, Fore.CYAN, delay=.00005)
+    clearScreen() 
+    text_effect(f, Fore.GREEN, delay=.0002)
+    clearScreen() 
+    text_effect(f, Fore.CYAN, delay=.00005)
+    sea = """〰🚣𓂃𓂃〰〰〰〰〰🚢𓂃𓂃〰〰〰〰𓂃𓂃〰𓂃𓂃⛵〰〰〰𓂃𓂃〰〰〰〰🚢〰〰〰〰🏊〰〰〰
+			˚			  	｡˚		｡˚	
+🪼     ｡˚      🐋				𓇼			 🦈 	｡˚				
+			🐠				˚	🐟     🐟
+	   ｡˚				｡˚	🦀	🐳	   🐟
+	🦈	˚	｡˚
+					˚		˚	｡˚  ｡
+  ˚		｡	   🐠	｡˚		｡˚
+"""
+    text_effect(sea, Fore.CYAN, delay=.001)
     text_effect(f"Welcome, {currentName}!", Fore.GREEN, delay=0.05)
     text_effect("Get ready to test your memory skills!", Fore.CYAN, delay=0.02)
     text_effect("Match all the pairs with the fewest moves possible!", Fore.RED, delay=0.02)
@@ -964,41 +985,69 @@ def loadRecentUserName():
 
         # Check if file exists (NOTE: This is a redundant check)
         if not os.path.isfile(filepath1):
-            # Ask for Username with
-            # Input Validation for Username Length between 3 to 15 Characters
+            text_effect("Hey you!", Fore.GREEN, delay=.05)
+            text_effect("Who.. me?", Fore.RED, delay=.05)
+            input()
+            clearScreen()
+            text_effect("Yes you!!!", Fore.GREEN, delay=.05)
+            text_effect("Are you the new kid in town? It's tradition new kids got to tell their name", Fore.GREEN, delay=.05)
+            input()
+            clearScreen()
+            text_effect("Do I have a choice?....", Fore.RED, delay=.05)
+            text_effect("No exemptions kid, got to tell your name. I don't make the rules.", Fore.GREEN, delay=.05)
+            input()
+            clearScreen()
             while True:
-                userName = str(input("Please enter UserName: "))
+                userName = str(text_effect_input("Please enter your name: ", Fore.RED, delay=.03))
                 if len(userName) not in range (3,16):
-                    print("Please enter a valid Username length between 3 and 15")
+                    text_effect("Stop fooling around names are only between 3 and 15 characters long!", Fore.GREEN, delay=.02)
+                    time.sleep(.5)
+                    clearScreen()
                     continue
                 else:
-                    print(f"Welcome to the game, {userName}!!!")
+                    text_effect(f"Thanks for the name kid... I mean... {userName}! See you around!", Fore.GREEN)
+                    clearScreen()
                     break 
             # Create csv file
             file1 = open(filepath1, "w")
             file1.write(userName)
             file1.close()
         return userName
-    # CASE 2: CSV Folder already exist 
+    # CASE 2: Folder already exist 
     else:
 
         # CASE 2a: File does not exist
         if not os.path.isfile(filepath1):
-            # Ask for Username with 
-            # Input Validation for Username Length between 3 to 15 Characters
+
+            text_effect("Hey you!", Fore.GREEN, delay=.05)
+            text_effect("Who.. me?", Fore.RED, delay=.05)
+            input()
+            clearScreen()
+            text_effect("Yes you!!!", Fore.GREEN, delay=.05)
+            text_effect("Are you the new kid in town? It's tradition new kids got to tell their name.", Fore.GREEN, delay=.05)
+            input()
+            clearScreen()
+            text_effect("Do I have a choice?....", Fore.RED, delay=.05)
+            text_effect("No exemptions kid, got to tell your name. I don't make the rules.", Fore.GREEN, delay=.05)
+            input()
+            clearScreen()
             while True:
-                userName = str(input("Please enter UserName: "))
+                userName = str(text_effect_input("Please enter your name: ", Fore.RED, delay=.03))
                 if len(userName) not in range (3,16):
-                    print("Please enter a valid Username length between 3 and 15")
+                    text_effect("Stop fooling around names are only between 3 and 15 characters long!", Fore.GREEN, delay=.02)
+                    time.sleep(.5)
+                    clearScreen()
                     continue
                 else:
-                    print(f"Welcome to the game, {userName}!!!")
-                    break   
-                    # Create csv file
+                    text_effect(f"Thanks for the name kid... I mean... {userName}! See you around!", Fore.GREEN)
+                    clearScreen()
+                    break 
+            # Create csv file
             file1 = open(filepath1, "w")
-            file1.write(userName,"\n")
+            file1.write(userName)
             file1.close()
             return userName
+
         # CASE 2b: File already exist
         else:
             if os.path.isfile(filepath1):
@@ -1145,13 +1194,21 @@ def setUserName():
     while True:
         try:
             clearScreen()
-            print(f"The Current Player is: {currentPlayer}")
-            print("\n\u2660 Options \u2660")
-            print("[ 1  ] - Change Player")
-            print("[ 2  ] - Add Player")
-            print("[ 3  ] - Delete Player")
-            print("[ 0  ] - Return To Previous Menu")
-            option = int(input("\nSelect Option Number: "))
+
+            f = figlet_format("memory camp", font="doom")
+            text_effect(f, Fore.BLUE, delay=.001)    
+            console = Console()
+            text = Text.assemble(("                    "),("Test your memory ", "bold yellow overline underline"), ("with", "bold yellow overline underline"), (" friends!", "bold yellow overline underline"))
+            console.print(text) 
+            print("")
+
+            text_effect(f"The Current Player is: {currentPlayer}", Fore.BLUE, delay=.02)
+            text_effect("\n\u2660 Options \u2660", Fore.MAGENTA, delay=.002)
+            text_effect("[ 1  ] - Change Player", Fore.BLUE, delay=.002)
+            text_effect("[ 2  ] - Add Player", Fore.GREEN, delay=.002)
+            text_effect("[ 3  ] - Delete Player", Fore.RED, delay=.002)
+            text_effect("[ 0  ] - Return To Previous Menu", Fore.MAGENTA, delay=.002)
+            option = int(text_effect_input("\nSelect Option Number: ", Fore.GREEN, delay=.002))
             
             if option in [1, 2, 3, 0]:
                 break
@@ -1199,7 +1256,8 @@ def updateNameFile(currentPlayer, userFile, usersFile, mode):
     
     # If players list is empty, go back to main menu
     if len(playerList) == 0:
-        print("Looks like you're the only player \U0001F605")
+        clearScreen()
+        text_effect("Looks like you're the only player \U0001F605", Fore.RED, delay=.002)
         key = input("Press a Enter to continue")
         setUserName()
 
@@ -1207,16 +1265,16 @@ def updateNameFile(currentPlayer, userFile, usersFile, mode):
         while True:
             try:
                 clearScreen()
-                print(f"The Current Player is: {currentPlayer}")
+                text_effect(f"The Current Player is: {currentPlayer}", Fore.CYAN, delay=.002)
                 print("\n\u2663 Player Select \u2663")
                 for k, v in playerList.items():
-                    print ("[ {:<3}] - {}".format(k, v))
-                print("---\n[ 0  ] - Return To Previous Menu")
+                    text_effect("[ {:<3}] - {}".format(k, v), Fore.BLUE, delay=.002)
+                text_effect("---\n[ 0  ] - Return To Previous Menu", Fore.MAGENTA, delay=.002)
                 
                 if mode == "change":
-                    option = int(input("\nEnter Player Number: "))
+                    option = int(text_effect_input("\nEnter Player Number: ", Fore.GREEN, delay=.002))
                 else:
-                    option = int(input("\nEnter Player Number to Delete: "))
+                    option = int(text_effect_input("\nEnter Player Number to Delete: ", Fore.RED, delay=.002))
                 
                 if option < len(playerList) + 1:
                     break
@@ -1282,17 +1340,21 @@ def updateNameListFile(currentPlayer, userFile, usersFile):
     clearScreen()
 
     if len(playerList) > 15:
-        print("\nMaximum 15 users only. Please delete a player first")
-        key = input("\nPress a Enter to continue")       
+        text_effect("\nMaximum 15 users only. Please delete a player first", Fore.RED, delay=.002)
+        key = text_effect_input("\nPress press Enter to continue", Fore.CYAN, delay=.002)       
 
     else:
-        print("HERE COMES A NEW CHALLENGER!")
+        text_effect(figlet_format("⚔️ HERE COMES A NEW 🛡️", font = "cybermedium" ) , Fore.RED, delay=.002)
+        text_effect(figlet_format("CHALLENGER!", font = "big" ) , Fore.GREEN, delay=.001)
+        time.sleep(.5)
 
         while True:
-            challenger = input("\nPlease Enter Your Name: ")
+            clearScreen()
+            challenger = text_effect_input("\nPlease Enter Your Name: ", Fore.GREEN, delay=.002)
 
-            if len(challenger) not in range(3, 15):
-                print("\nMinimum of 3 characters and Maximum of 15 characters only")
+            if len(challenger) not in range(3, 16):
+                text_effect("\nMinimum of 3 characters and Maximum of 15 characters only", Fore.RED, delay=.02)
+                time.sleep(1)
             else:
                 break
 
@@ -1304,8 +1366,8 @@ def updateNameListFile(currentPlayer, userFile, usersFile):
                 f.write(f"\n{challenger}")
             
         else:
-            print("\nName already exists!")
-            key = input("\nPress a Enter to continue")
+            text_effect("\nName already exists!", Fore.RED, delay=.002)
+            key = text_effect_input("\nPress press Enter to continue", Fore.CYAN, delay=.002)
 
     setUserName()
 
@@ -1726,8 +1788,17 @@ def playGame(type=1):
         n = select_difficulty()
         clearScreen()
 
-        text_effect(f"Instead of selecting a card, you can press 'Q' to quit without saving or 'S' to save and quit the game", Fore.GREEN, .03) 
+        f = figlet_format("MEMORY ARENA", font="starwars")
+        text_effect(f, Fore.GREEN, delay=.0005) 
+
+        console = Console()
+        text = Text.assemble(("                     "),("Focus ", "bold green overline underline2"), ("or", "bold blue overline underline2"), (" Forget!", "bold red overline underline2"))
+        console.print(text) 
+        print()
+        text_effect(f"Instead of selecting a card, you can press 'Q' to quit without saving or 'S' to save and quit the game", Fore.GREEN, .02) 
         time.sleep(4)
+        print("")
+        text_effect(f"Entering the arena......", Fore.GREEN, .08)
         print(Style.RESET_ALL) 
         clearScreen()
 
