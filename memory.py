@@ -444,6 +444,15 @@ def selectCard(stateBoard, currentSelection, icMapDict):
             if answer.lower() == "y":
                 return True
             
+        elif cardSelected.lower() == 'm':
+
+            clearScreen()
+            answer = text_effect_input("Are you sure you want to return to main menu, your game will not be saved. Type and enter Y/y\n", Fore.RED ,delay=.02)
+            print(Style.RESET_ALL)            
+
+            if answer.lower() == "y":
+                return 'm'            
+            
         # Convert card selected to integer
         cardSelected = int(cardSelected)
 
@@ -1808,6 +1817,7 @@ def playGame(type=1):
         console.print(text) 
         print()
         text_effect(f"Instead of selecting a card, you can press 'Q' to quit without saving or 'S' to save and quit the game", Fore.GREEN, .02) 
+        text_effect(f"You can also press 'M' to return to main menu without saving", Fore.GREEN, .01)
         time.sleep(4)
         print("")
         text_effect(f"Entering the arena......", Fore.GREEN, .08)
@@ -1840,6 +1850,10 @@ def playGame(type=1):
                 encryptedBoard, key = encryptBoard(assignmentBoard)
                 saveBoard(encryptedBoard, stateBoard, currentSelection, totalMoves, key)
                 sys.exit()
+            
+            # Case: Return to main menu
+            elif selectedCard == 'm':
+                main('skip') # Returns to main menu
 
             # Add card to current selection
             currentSelection.append(selectedCard)
@@ -1864,6 +1878,10 @@ def playGame(type=1):
                 encryptedBoard, key = encryptBoard(assignmentBoard)
                 saveBoard(encryptedBoard, stateBoard, currentSelection, totalMoves, key)
                 sys.exit()
+
+            # Case: Return to main menu
+            elif selectedCard == 'm':
+                main('skip') # Returns to main menu
 
             # Add card to current selection
             currentSelection.append(selectedCard)
@@ -1976,6 +1994,10 @@ def playGame(type=1):
                 saveBoard(encryptedBoard, stateBoard, currentSelection, totalMoves, key)
                 sys.exit()
 
+            # Case: Return to main menu
+            elif selectedCard == 'm':
+                main('skip') # Returns to main menu
+
             # Add card to current selection
             currentSelection.append(selectedCard)
 
@@ -2027,6 +2049,10 @@ def playGame(type=1):
                 saveBoard(encryptedBoard, stateBoard, currentSelection, totalMoves, key)
                 sys.exit()
 
+            # Case: Return to main menu
+            elif selectedCard == 'm':
+                main('skip') # Returns to main menu
+
             # Add card to current selection
             currentSelection.append(selectedCard)
 
@@ -2050,6 +2076,10 @@ def playGame(type=1):
                 encryptedBoard, key = encryptBoard(assignmentBoard)
                 saveBoard(encryptedBoard, stateBoard, currentSelection, totalMoves, key)
                 sys.exit()
+
+            # Case: Return to main menu
+            elif selectedCard == 'm':
+                main('skip') # Returns to main menu
 
             # Add card to current selection
             currentSelection.append(selectedCard)
@@ -2087,16 +2117,21 @@ def playGame(type=1):
         pass
 
 
-def main():
+def main(status='new'):
     """
     Executes the flow of the game
-    """
-    # Clear the screen and retrieve the current username
-    clearScreen()
-    currentName = loadRecentUserName()
 
-    # Display the welcome screen
-    welcomeScreen(currentName)
+    Note: status = 'new' if run program from the start, status = 'skip' if skip to main menu
+    """
+
+    if status == 'new':
+
+        # Clear the screen and retrieve the current username
+        clearScreen()
+        currentName = loadRecentUserName()
+
+        # Display the welcome screen
+        welcomeScreen(currentName)
 
     # Start the main menu loop
     while True:
