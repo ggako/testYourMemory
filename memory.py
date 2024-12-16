@@ -452,24 +452,38 @@ def selectCard(stateBoard, currentSelection, icMapDict):
 
             if answer.lower() == "y":
                 return 'm'            
-            
-        # Convert card selected to integer
-        cardSelected = int(cardSelected)
 
-        # Check if card selected is in list of available cards
-        if cardSelected not in boardCards:
-            clearScreen()
-            print(Fore.RED + "Card selected is invalid :(" + Style.RESET_ALL)
-            time.sleep(1)
-            return False            
-        elif cardSelected not in availableCards:
-            clearScreen()
-            print(Fore.RED + "Selected card already flipped :)" + Style.RESET_ALL)
-            time.sleep(1)
-            return False
         else:
-            return cardSelected
+
+            try:    
+                # Convert card selected to integer
+                cardSelected = int(cardSelected)
+
+                # Check if card selected is in list of available cards
+                if cardSelected not in boardCards:
+                    clearScreen()
+                    print(Fore.RED + "Card selected is invalid :(" + Style.RESET_ALL)
+                    time.sleep(1)
+                    return False            
+                elif cardSelected not in availableCards:
+                    clearScreen()
+                    print(Fore.RED + "Selected card already flipped :)" + Style.RESET_ALL)
+                    time.sleep(1)
+                    return False
+                else:
+                    return cardSelected
+                
+            except:
+                
+                clearScreen()
+                print(Fore.RED + "Card selected is invalid :(" + Style.RESET_ALL)
+                time.sleep(1)
+                return False       
+
+        return False        
+    
     except:
+
         return False
 
 
@@ -1836,6 +1850,7 @@ def playGame(type=1):
         print("")
         text_effect(f"Entering the arena......", Fore.GREEN, .08)
         print(Style.RESET_ALL) 
+        time.sleep(1)
         clearScreen()
 
         # Initialize boards and game variables
