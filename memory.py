@@ -1338,6 +1338,21 @@ def updateNameFile(currentPlayer, userFile, usersFile, mode):
 
                 deletedPlayer = playerList[option]
 
+                # Confirm if user wants to delete
+                clearScreen()
+                answer = text_effect_input("Are you sure you want to delete the user? All their records will also be deleted. Type and enter Y/y\n", Fore.RED, delay=.02)
+                print(Style.RESET_ALL)
+
+                if answer.lower() != "y":
+                    clearScreen()
+                    text_effect(f"No user is deleted.\n", Fore.GREEN, delay=.02)
+                    time.sleep(1)
+                    setUserName()
+
+                clearScreen()
+                text_effect(f"User {deletedPlayer} is Forgotten\n", Fore.RED, delay=.02)
+                time.sleep(1)
+
                 del playerList[option]
                 with open(usersFile, 'w') as f:
                     for v in playerList.values():
