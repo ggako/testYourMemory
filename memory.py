@@ -1311,7 +1311,7 @@ def updateNameFile(currentPlayer, userFile, usersFile, mode):
                 else:
                     option = int(text_effect_input("\nEnter Player Number to Delete: ", Fore.RED, delay=.002))
                 
-                if option < len(playerList) + 1:
+                if option < len(playerList) + 1 and option >= 0:
                     break
             except:
                 pass
