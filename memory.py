@@ -1028,6 +1028,7 @@ def loadRecentUserName():
                     continue
                 else:
                     text_effect(f"Thanks for the name kid... I mean... {userName}! See you around!", Fore.GREEN)
+                    time.sleep(1)
                     clearScreen()
                     break 
             # Create csv file
