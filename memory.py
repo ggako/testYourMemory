@@ -1221,8 +1221,20 @@ def setUserName():
     elif option == 2:
         updateNameListFile(currentPlayer, userFile, usersFile)
     elif option == 3:
+
+        # Specify game log file path
+        currentPath = os.path.dirname(os.path.abspath(__file__))
+        filepath = os.path.join(currentPath, 'gamelog/gamelog.csv') 
+
+        # Update name file
         updateNameFile(currentPlayer, userFile, usersFile, "delete")
-        updateGameLog(getCurrentNameList())
+        
+        # Update game log if file exists
+        if not os.path.isfile(filepath):
+            pass
+        else:
+            updateGameLog(getCurrentNameList())
+
     else:
         # Go back to main menu
         return 0
