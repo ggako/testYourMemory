@@ -839,16 +839,29 @@ def congratsScreen(currentName, score, n):
     Displays a congratulation screen
     """
     clearScreen()  # Clear the screen
-    print("****************************")
-    print("*   CONGRATULATIONS!       *")
-    print("****************************")
-    print(f"Well done, {currentName}!")
-    print(f"Your final score is {score}")
-    if isAddedToLeaderboard(score, n):
-        print("You've reached the leaderboard!")
-    print("Keep playing to improve your score!")
+    f = figlet_format("Congratulations !", font="standard")
+    text_effect(f, Fore.GREEN, delay=.001)    
+    text_effect(f"Well done, {currentName} !", Fore.BLUE, delay=.001)    
+    text_effect(f"You conquered the arena and was able to Test your memory and your final score is....", Fore.BLUE, delay=.04)
     print()
-    input("Press Enter to continue...")
+    text_effect(f".....Calculating......", Fore.RED, delay=.1)
+    print()
+    text_effect(f"Final Score: {score}", Fore.GREEN, delay=.1)
+    print("")
+
+    if isAddedToLeaderboard(score, n):
+        time.sleep(2)
+        text_effect("Wow you also got an amazing feat 🥳", Fore.YELLOW, delay=.02)
+        time.sleep(1)
+        text_effect("You've reached the leaderboard! 🏆", Fore.BLUE, delay=.02)  
+        print("")
+        time.sleep(1)
+        text_effect("Visit the Hall Of Fame to see your name! 🔥", Fore.RED, delay=.02)
+    time.sleep(1.5)  
+    print("")
+    text_effect("Keep playing to improve your memory!", Fore.GREEN, delay=.01)
+    print()
+    text_effect_input("Press Enter to continue...", Fore.GREEN, delay=.01)
 
 
 def totalMovesToScore(totalMoves,n):
