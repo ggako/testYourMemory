@@ -1154,6 +1154,7 @@ def game_mechanics():
     # Game goal
     flash_text("Goal:", delay=0.3, flash_count=6)
     text_effect("Reveal all the pairs with the fewest attempts!", Fore.GREEN, delay=0.08)
+    text_effect("Your score depends on the number of moves and the board size—fewer moves on larger boards result in higher scores.", Fore.GREEN, delay=0.08)
     text_effect("Beat the highscores in the Leaderboards!", Fore.GREEN, delay=0.08)
     
     print()
