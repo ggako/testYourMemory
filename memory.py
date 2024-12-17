@@ -1662,7 +1662,7 @@ def achievement():
         # print(df)
 
         # Achievement 0: Play a single game
-        if True:
+        if df[(df.Name == currentName)].shape[0] >= 1:
             achievementDict[0]['status'] = True
 
         # Achievement 1: Complete 2 4x4 games
