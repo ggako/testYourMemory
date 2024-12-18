@@ -1135,27 +1135,28 @@ def game_mechanics():
     flash_text("Welcome to Test Your Memory!", delay=0.2, flash_count=10)
     
     # How to play?;
-    text_effect("\nHow to Play?", Fore.CYAN, delay=0.1)
-    text_effect("1. The board contains pairs of hidden cards.", Fore.BLUE, delay=0.05)
-    text_effect("2. Flip two cards by entering the number of the card displayed.", Fore.BLUE, delay=0.05)
-    text_effect("3. If the cards match, they remain revealed.", Fore.BLUE, delay=0.05)
-    text_effect("4. If the cards don’t match, they are hidden again.", Fore.BLUE, delay=0.05)
-    text_effect("5. Continue until all pairs are matched.", Fore.BLUE, delay=0.05)
+    text_effect("\nHow to Play?", Fore.CYAN, delay=0.05)
+    text_effect("1. The board contains pairs of hidden cards.", Fore.BLUE, delay=0.03)
+    text_effect("2. Flip two cards by entering the number of the card displayed.", Fore.BLUE, delay=0.03)
+    text_effect("3. If the cards match, they remain revealed.", Fore.BLUE, delay=0.03)
+    text_effect("4. If the cards don’t match, they are hidden again.", Fore.BLUE, delay=0.03)
+    text_effect("5. Continue until all pairs are matched.", Fore.BLUE, delay=0.03)
     
     print()
 
     # additional tips
     flash_text("Tips:", delay=0.2, flash_count=8)
-    text_effect("- Try to remember the position of previously revealed cards.", Fore.MAGENTA, delay=0.07)
-    text_effect("- Focus and just enjoy the game!", Fore.MAGENTA, delay=0.07)
+    text_effect("- Try to remember the position of previously revealed cards. 🤔", Fore.MAGENTA, delay=0.05)
+    text_effect("- Focus and just enjoy the game! 😎", Fore.MAGENTA, delay=0.05)
     
     print()
 
     # Game goal
-    flash_text("Goal:", delay=0.3, flash_count=6)
-    text_effect("Reveal all the pairs with the fewest attempts!", Fore.GREEN, delay=0.08)
-    text_effect("Your score depends on the number of moves and the board size—fewer moves on larger boards result in higher scores.", Fore.GREEN, delay=0.08)
-    text_effect("Beat the highscores in the Leaderboards!", Fore.GREEN, delay=0.08)
+    flash_text("Goal 🎯:", delay=0.3, flash_count=6)
+    text_effect("Reveal all the pairs with the fewest attempts! 💯", Fore.YELLOW, delay=0.03)
+    text_effect("Your score depends on the number of moves and the board size. Fewer moves on larger boards result in higher scores. 🚀", Fore.GREEN, delay=0.04)
+    text_effect("Beat the highscores to get yourself in the MemoryLand Hall of Fame! 🔥 (Leaderboard screen)", Fore.RED, delay=0.04)
+    text_effect("Keep playing and unlock memory stones to retrieve your lost memories in the MemoryLand Temple! ⭐ (Achievements screen)", Fore.BLUE, delay=0.04)
     
     print()
 
